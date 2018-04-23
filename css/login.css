@@ -1,0 +1,44 @@
+/* @import "bourbon"; */
+body {
+	background-image: url("../images/login_bg.jpg");
+}
+.error_login{
+	color: red;
+}
+
+.wrapper {	
+	margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+.form-signin {
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.1);  
+  text-align: center;
+  color: #008c44;
+
+  	input[type="text"] {
+	  margin-bottom: -1px;
+	  border-bottom-left-radius: 0;
+	  border-bottom-right-radius: 0;
+	}
+
+	input[type="password"] {
+	  margin-bottom: 20px;
+	  border-top-left-radius: 0;
+	  border-top-right-radius: 0;
+	}
+}
+.btn-primary {
+	background-color: #008c44;
+	border-color: #008c44;
+}
+.btn-primary:hover {
+	background-color: #008c44;
+	border-color: #008c44;
+	opacity: 0.5;
+}
+input:hover, input:after {border-color: #008c44;}
