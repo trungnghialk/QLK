@@ -166,7 +166,7 @@
               if(isset($_POST["checkout"]) && $_SESSION["item_new"] > 1){
                 $order_id = $_POST["order_id"];
                 $warehouse_id = $_POST["warehouse_id"];
-                $order_accept_date ="20".date("y-m-d", strtotime($_POST["order_accept_date"]));
+                $order_accept_date =date("Y-m-d",time($_POST['order_accept_date']));
                 $supplier_id = $_POST["supplier_id"];
                 $SQL = "INSERT INTO ORDERS(order_id, warehouse_id, supplier_id, order_accept_date,username) VALUES ('$order_id', '$warehouse_id', '$supplier_id', '$order_accept_date','')";
                 $result = mysql_query($SQL);

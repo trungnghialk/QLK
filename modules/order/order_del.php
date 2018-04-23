@@ -6,7 +6,7 @@ if (isset($_GET["order_id"])) {
 	mysql_query($SQL);
 	$SQL = "DELETE FROM ORDERS_CONTAIN WHERE order_id = '$order_id'";
 	mysql_query($SQL);
-	header('Location: ../../index.php?id=dathang');
+	header('Location: ../../index.php?id=dathang&view=true');
 }
 if (isset($_GET["clear"])) {
 	$i = $_GET["clear"];

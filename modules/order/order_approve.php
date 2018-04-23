@@ -27,8 +27,19 @@
         $edit++;
         $_SESSION["item"] = $edit;
       }
+      $sql =" SELECT * FROM orders as a INNER JOIN supplier as b on a.supplier_id = b.supplier_id INNER JOIN warehouse as c on a.warehouse_id = c.warehouse_id WHERE order_id = '$order_id'";
+      $result = mysql_query($sql);
+      while ($row = mysql_fetch_array($result)) {
+        $supplier_name = $row["supplier_name"];
+        $warehouse_name = $row["warehouse_name"];
+        $order_accept_date = $row["order_accept_date"];
+      }
     }
     $item = $_SESSION["item"];
+    if (isset($_POST["approve"])) {
+      $sql = "UPDATE orders SET approve = 'pass' WHERE order_id = '$order_id'";
+      mysql_query($sql);
+    }
     ?>
     <form name="add_name" id="add_name" action="" method="POST">  
 
@@ -36,13 +47,13 @@
         <div class="lbcode">Mã phiếu: <input style="text-align: center;" name="order_id" id="order_id" readonly="readonly" value="<?php echo $_GET['order_id']; ?>"></div>
         <div class="lfield">
           Kho nhận hàng: 
-          <input type="text" readonly="" name="" style="width: 120px;">
+          <input type="text" readonly="readonly" name="warehouse_name" style="width: 120px;" value="<?php echo $warehouse_name ?>">
         </div>
-        <div class="lfield">Ngày nhận dự kiến: <input class="txtbox" style="width: 100px;" type="text" name="order_accept_date" value="" ></div>
+        <div class="lfield">Ngày nhận dự kiến: <input class="txtbox" style="width: 100px;" type="text" name="order_accept_date" value="<?php echo date("d-m-Y", time($order_accept_date)) ?>" ></div>
         <div class="clear"></div>
         <div>
           Nhà cung cấp: 
-          <input type="text" readonly="" name="" style="width: 690px;">
+          <input type="text" readonly="readonly" name="supplier_name" style="width: 690px;" value="<?php echo $supplier_name ?>">
         </div>
         <div class="clear" style="height: 30px"></div>
       </div>
@@ -76,12 +87,11 @@
         } 
       } ?>
     </tbody>
-  </table>         
+  </table>
   <div class="modal-footer">
-
     <input style="float: left;" type="submit" name="checkout" id="checkout" class="btn btn-danger" value="Hủy phiếu" />  
-    <input type="submit" name="checkout" id="checkout" class="btn btn-success" value="Cập nhật" />  
-    <a href="index.php?id=dathang&view=TRUE"><input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy"></a>
+    <input type="submit" name="approve" id="checkout" class="btn btn-success" value="Duyệt phiếu" />  
+    <a href="index.php?id=dathang&view=TRUE"><input type="button" class="btn btn-default" data-dismiss="modal" value="Đóng"></a>
   </div>
 </form> 
 </div>

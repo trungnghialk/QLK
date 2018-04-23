@@ -42,6 +42,16 @@
     else{
       $_SESSION['warehouse_id'] = $_POST['warehouse_id'];
     }
+    if(!isset($_POST['supplier_id'])){
+      $sql ="SELECT * FROM orders INNER JOIN supplier on orders.supplier_id = supplier.supplier_id WHERE orders.order_id = '$order_id'";
+      $result = mysql_query($sql);
+      while ($row = mysql_fetch_array($result)) {
+        $_SESSION['supplier_id'] = $row['supplier_id'];
+      }
+    }
+    else{
+      $_SESSION['supplier_id'] = $_POST['supplier_id'];
+    }
     // Kết thúc in các vật tư đã đặt hàng
     // Xác định vật tư mới thêm vào đã có hay chưa
     $item = $_SESSION["item"];
@@ -110,7 +120,19 @@
             <div>
               Nhà cung cấp: 
               <select class="txtbox" id="supplier_id" name="supplier_id" style="min-width: 690px;">
-                <option value="">Vui lòng chọn</option>
+                <option value="<?php echo $_SESSION['supplier_id']; ?>">
+                  <?php 
+                  if (isset($_SESSION['supplier_id'])){
+                    $supplier_id = $_SESSION["supplier_id"];
+                    $sql = "select * from supplier WHERE supplier_id = '$supplier_id'";
+                    $result = mysql_query($sql);
+                    while ($row = mysql_fetch_array($result)) {
+                      echo $row['supplier_name'] ;
+                    }; 
+                  }
+                  else {echo "Vui lòng chọn";} 
+                  ?>
+                </option>
                 <?php
                 $sql = "select * from supplier";
                 $result = mysql_query($sql);
@@ -182,14 +204,14 @@
                   </table>         
                   <div class="modal-footer">
                     <input type="submit" name="checkout" id="checkout" class="btn btn-info" value="Cập nhật" />  
-                    <a href="index.php?id=dathang&view=TRUE"><input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy"></a>
+                    <a href="index.php?id=dathang&view=TRUE"><input type="button" class="btn btn-default" data-dismiss="modal" value="Đóng"></a>
                   </div>
                 </form>
                 <!-- cập nhật phiếu đặt hàng vào bản order -->
                 <?php
                 if(isset($_POST["checkout"])){
                   $warehouse_id = $_POST["warehouse_id"];
-                  $order_accept_date = "2018-12-12";
+                  $order_accept_date = date("Y-m-d",time($_POST['order_accept_date']));
                   $supplier_id = $_POST["supplier_id"];
                   $SQL = "UPDATE ORDERS SET order_id = '$order_id', warehouse_id = '$warehouse_id', supplier_id = '$supplier_id', order_accept_date = '$order_accept_date' WHERE order_id = '$order_id'";
                   $result = mysql_query($SQL);
@@ -200,9 +222,6 @@
                     $materialscount_in = $_POST["materialscount_in".$i];
                     $SQL = "DELETE FROM ORDERS_CONTAIN WHERE order_id = '$order_id' AND materials_id = '$materials_id'" ;
                     $result = mysql_query($SQL);
-                      echo ($order_id." ");
-                      echo ($materials_id." ");
-                      echo ($materialscount_in."<br>");
                   }         
                   for ($i=1; $i < $item ; $i++) { 
                     $materials_id = $_SESSION["materials_id".$i];
