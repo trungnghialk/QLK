@@ -24,6 +24,7 @@
         $_SESSION['materials_cat_name'.$edit] = $row['materials_cat_name'];
         $_SESSION['materials_unit'.$edit] = $row['materials_unit'];
         $_SESSION['materialscount_in'.$edit] = $row['materialscount_in'];
+        $_SESSION['materialscount_out'.$edit] = $row['materialscount_out'];
         $edit++;
         $_SESSION["item"] = $edit;
       }
@@ -60,12 +61,12 @@
       <table class="table table-striped table-hover">
         <thead>
          <tr>
-          <th></th>
           <th>Mã vật tư</th>
           <th>Tên vật tư</th>
           <th>Số lượng</th>
           <th>Đơn vị tính</th>
           <th>Nhóm vật tư</th>
+          <th>Trạng thái</th>
         </tr>
       </thead>
       <tbody>
@@ -75,12 +76,27 @@
           for ($i=1; $i < $item; $i++) { 
            ?>
            <tr>
-            <td></td>
             <td><?php echo $_SESSION["materials_id".$i] ?></td>
             <td style="width: 300px"><?php echo $_SESSION["materials_name".$i] ?></td>
             <td><?php echo $_SESSION["materialscount_in".$i] ?></td>
             <td><?php echo $_SESSION["materials_unit".$i] ?></td>
             <td><?php echo $_SESSION["materials_cat_name".$i] ?></td>
+            <td>
+              <?php 
+              if ($_SESSION["materialscount_out".$i] == 0) {
+                echo ("<span class='label label-warning'>Chưa nhập</span>");
+              } else {
+              if ($_SESSION["materialscount_in".$i] > $_SESSION["materialscount_out".$i]) {
+                echo ("<span class='label label-warning'>Nhập thiếu</span>");
+              } else {
+              if ($_SESSION["materialscount_in".$i] = $_SESSION["materialscount_out".$i]) {
+                echo ("<span class='label label-success'>Nhập đủ</span>");
+              } else {
+              if ($_SESSION["materialscount_in".$i] < $_SESSION["materialscount_out".$i]) {
+                echo ("<span class='label label-info'>Nhập dư</span>");
+              }}}};
+              ?>
+            </td>
           </tr> 
           <?php 
   // Kết thúc xuaasrt vật tư ra màn hình
@@ -89,8 +105,7 @@
     </tbody>
   </table>
   <div class="modal-footer">
-    <input style="float: left;" type="submit" name="checkout" id="checkout" class="btn btn-danger" value="Hủy phiếu" />  
-    <input type="submit" name="approve" id="checkout" class="btn btn-success" value="Duyệt phiếu" />  
+    <input style="float: left;" type="submit" name="print" id="checkout" class="btn btn-danger" value="In phiếu" />  
     <a href="index.php?id=dathang&view=TRUE"><input type="button" class="btn btn-default" data-dismiss="modal" value="Đóng"></a>
   </div>
 </form> 

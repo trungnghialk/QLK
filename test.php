@@ -5,10 +5,7 @@
 </head>
 <body class="body" onclose="clear()">
 <?php 
-$timezone = DateTimeZone::listIdentifiers() ;
-foreach ($timezone as $item){
-    echo $item . '<br/>';
-}
+echo date("d-m-Y", time())
 ?>
 </body>
 </html>

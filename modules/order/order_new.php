@@ -77,7 +77,7 @@
               <?php } ?>
             </select>
           </div>
-          <div class="lfield">Ngày nhận dự kiến: <input class="txtbox" style="width: 100px;" type="text" name="order_accept_date" value="<?php $a = getdate(); echo $a['mday'].'/'.$a['mon'].'/'.$a['year'];?>" ></div>
+          <div class="lfield">Ngày nhận dự kiến: <input required="" class="txtbox" style="width: 100px;" type="text" name="order_accept_date" value="<?php $a = getdate(); echo $a['mday'].'/'.$a['mon'].'/'.$a['year'];?>" ></div>
           <div class="clear"></div>
           <div>
             Nhà cung cấp: 
@@ -110,7 +110,7 @@
                 <thead>
                  <tr>
                   <th style="text-align: center">Nhóm vật tư<br>
-                    <select style="width: 150px;" class="txtbox" id="materials_cat_name" name="materials_cat_name" onchange="select_material()" required="">
+                    <select style="width: 150px;" class="txtbox" id="materials_cat_name" name="materials_cat_name" onchange="select_material()">
                       <option value="">Vui lòng chọn</option>
                       <?php
                       $sql = "select * from materials_category";
@@ -122,11 +122,11 @@
                       </select>
 
                       <th style="text-align: center">Tên vật tư<br>
-                        <select class="txtbox" style="width: 200px;" id="materials_name" required="" name="materials_name" onchange="select_materialID()"><option value="">Vui lòng chọn</option></select></th>
-                        <th style="text-align: center;">Số lượng<br><input class="txtbox" style="width: 100px" type="" name="materialscount_in" required=""></th>
+                        <select class="txtbox" style="width: 200px;" id="materials_name" name="materials_name" onchange="select_materialID()"><option value="">Vui lòng chọn</option></select></th>
+                        <th style="text-align: center;">Số lượng<br><input class="txtbox" style="width: 100px" type="" name="materialscount_in"></th>
                         <th style="text-align: center">Mã vật tư<br><div id="get_materials_id" name="get_materials_id"><input style="width: 100px" class="txtbox" type="text" name="materials_id"></div></th>
                         <th style="text-align: center">Đơn vị tính<br><div id="get_materials_unit" name="get_materials_unit"><input type="text" style="width: 100px;" class="txtbox" name="materials_unit"></div></th>
-                        <th><input type="submit" name="addtocart" id="addtocart" class="btn btn-info" value="Thêm" /></th>
+                        <th><input type="submit" name="addtocart" id="addtocart" class="btn btn-success" value="Thêm" /></th>
                       </tr>
                     </thead>
                   </table>
@@ -158,7 +158,7 @@
                   </tbody>
                 </table>         
                 <div class="modal-footer">
-                  <input type="submit" name="checkout" id="checkout" class="btn btn-info" value="Đặt hàng" />  
+                  <input type="submit" name="checkout" id="checkout" class="btn btn-success" value="Đặt hàng" />  
                   <a href="index.php?id=dathang&view=TRUE"><input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy"></a>
                 </div>
               </form>
@@ -184,6 +184,10 @@
                   unset($_SESSION["materialscount_in".$i]);
                   unset($_SESSION["materials_unit".$i]);
                   unset($_SESSION["materials_cat_name".$i]);
+                  unset($_SESSION["warehouse_name"]);
+                  unset($_SESSION["warehouse_id"]);
+                  unset($_SESSION["supplier_id"]);
+                  unset($_SESSION["supplier_name"]);
                 }
                 $count_order = $_SESSION['count_order'];
                 $count_order++;

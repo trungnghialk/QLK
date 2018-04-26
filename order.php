@@ -1,4 +1,7 @@
 <?php
+if(isset($_GET['view_order']) == "true") {
+ include ("modules/order/order_view.php") ;
+}
 if(isset($_GET['new']) == "true") {
  include ("modules/order/order_new.php") ;
 }
@@ -7,6 +10,9 @@ if (isset($_GET['edit']) == "true") {
 }
 if (isset($_GET['approve']) == "true") {
   include ("modules/order/order_approve.php");
+}
+if (isset($_GET['goods_receipt']) == "true") {
+  include ("modules/goods_receipt/goods_receipt_new.php");
 }
 if (isset($_GET['view']) == "true") {
   ?>
@@ -52,6 +58,8 @@ if (isset($_GET['view']) == "true") {
               <a href="<?php echo ('index.php?id=dathang&edit=true&order_id='.$row['order_id']) ?>" class="btn btn-warning" data-toggle="modal"><span>Sửa</span></a>
               <a href="<?php echo ('modules/order/order_del.php?order_id='.$_SESSION['order_id'.$show]); ?>" class="btn btn-danger" data-toggle="modal"><span>Xóa</span></a>
               <a href="<?php echo ('index.php?id=dathang&approve=true&order_id='.$row['order_id']) ?>" class="btn btn-success" data-toggle="modal"><span>Duyệt</span></a>
+              <a href="<?php echo ('index.php?id=dathang&goods_receipt=true&order_id='.$row['order_id']) ?>" class="btn btn-success" data-toggle="modal"><span>Nhập kho</span></a>
+              <a href="<?php echo ('index.php?id=dathang&view_order=true&order_id='.$row['order_id']) ?>" class="btn btn-success" data-toggle="modal"><span>Xem</span></a>
               </td>
             </tr> 
             <?php 

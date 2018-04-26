@@ -37,7 +37,7 @@
     </div>
     <ul class="nav navbar-nav">
       <li><a href="?id=dathang&view=true">Đặt hàng</a></li>
-      <li><a href="?id=nhapkho">Nhập kho</a></li>
+      <li><a href="?id=nhapkho&view=true">Nhập kho</a></li>
       <li><a href="?id=xuatkho">Xuất kho</a></li>
       <li><a href="?id=chuyenkho">Chuyển kho</a></li>
       <li><a href="?id=vattu">Vật tư</a></li>
