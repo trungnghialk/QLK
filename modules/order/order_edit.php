@@ -142,7 +142,7 @@
                   <?php } ?>
                 </select>
               </div>
-              <div class="clear"></div>
+              <div class="clear" style="height: 30px"></div>
             </div>
             <table class="table table-striped table-hover">
               <thead>

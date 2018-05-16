@@ -8,7 +8,7 @@
     <div class="table-title">
       <div class="row">
         <div class="modal-header"> 
-          <h4 class="modal-title">Chỉnh sửa phiếu đặt hàng</h4>
+          <h4 class="modal-title">Thông tin phiếu đặt hàng</h4>
         </div>
       </div>
     </div>
@@ -63,10 +63,10 @@
          <tr>
           <th>Mã vật tư</th>
           <th>Tên vật tư</th>
-          <th>Số lượng</th>
+          <th>SL đặt hàng</th>
+          <th>Đã nhập kho</th>
           <th>Đơn vị tính</th>
           <th>Nhóm vật tư</th>
-          <th>Trạng thái</th>
         </tr>
       </thead>
       <tbody>
@@ -79,24 +79,9 @@
             <td><?php echo $_SESSION["materials_id".$i] ?></td>
             <td style="width: 300px"><?php echo $_SESSION["materials_name".$i] ?></td>
             <td><?php echo $_SESSION["materialscount_in".$i] ?></td>
+            <td><?php echo $_SESSION["materialscount_out".$i] ?></td>
             <td><?php echo $_SESSION["materials_unit".$i] ?></td>
             <td><?php echo $_SESSION["materials_cat_name".$i] ?></td>
-            <td>
-              <?php 
-              if ($_SESSION["materialscount_out".$i] == 0) {
-                echo ("<span class='label label-warning'>Chưa nhập</span>");
-              } else {
-              if ($_SESSION["materialscount_in".$i] > $_SESSION["materialscount_out".$i]) {
-                echo ("<span class='label label-warning'>Nhập thiếu</span>");
-              } else {
-              if ($_SESSION["materialscount_in".$i] = $_SESSION["materialscount_out".$i]) {
-                echo ("<span class='label label-success'>Nhập đủ</span>");
-              } else {
-              if ($_SESSION["materialscount_in".$i] < $_SESSION["materialscount_out".$i]) {
-                echo ("<span class='label label-info'>Nhập dư</span>");
-              }}}};
-              ?>
-            </td>
           </tr> 
           <?php 
   // Kết thúc xuaasrt vật tư ra màn hình

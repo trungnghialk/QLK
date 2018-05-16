@@ -24,11 +24,26 @@
 </head>
 <body class="body">
 <?php 
+// Bắt đầu kiểm tra login
   include ("connect.php");
   date_default_timezone_set('Asia/Ho_Chi_Minh');
   if(!isset($_SESSION['username'])) {
     header('location: login.php');
   } 
+// Kết thúc kiểm tra login
+
+// Lấy quyền truy cập kho
+  $username = $_SESSION["username"];
+  $sql = "SELECT * FROM permission_asign WHERE username = '$username'";
+  $result = mysql_query($sql);
+  $warehouse_count = 1;
+  while ($row = mysql_fetch_array($result)) {
+    $_SESSION["permit_warehouse".$warehouse_count] = $row["warehouse_id"];
+    $_SESSION["permit_id".$warehouse_count] = $row["Permission_id"];
+    $warehouse_count++;
+    $_SESSION["warehouse_count"] = $warehouse_count;
+  }
+// Kết thúc lấy quyền truy cập kho
 ?>
 <nav class="navbar navbar-fixed-top nav-custom">
   <div class="container-fluid">
@@ -38,8 +53,8 @@
     <ul class="nav navbar-nav">
       <li><a href="?id=dathang&view=true">Đặt hàng</a></li>
       <li><a href="?id=nhapkho&view=true">Nhập kho</a></li>
-      <li><a href="?id=xuatkho">Xuất kho</a></li>
-      <li><a href="?id=chuyenkho">Chuyển kho</a></li>
+      <li><a href="?id=xuatkho&view=true">Xuất kho</a></li>
+      <li><a href="?id=chuyenkho&view=true">Chuyển kho</a></li>
       <li><a href="?id=vattu">Vật tư</a></li>
       <li><a href="?id=khohang">Kho hàng</a></li>
       <li><a href="?id=nhacungcap">Nhà Cung cấp</a></li>
@@ -57,7 +72,7 @@
     if($_GET['id'] == "dathang"){include("order.php");}
     if($_GET['id'] == "nhapkho"){include("goods_receipt.php");}
     if($_GET['id'] == "xuatkho"){include("goods_issue.php");}
-    if($_GET['id'] == "chuyenkho"){include("goods-transfer");}
+    if($_GET['id'] == "chuyenkho"){include("goods_transfer.php");}
     if($_GET['id'] == "vattu"){include("materials.php");}
     if($_GET['id'] == "khohang"){include("warehouse.php");}
     if($_GET['id'] == "nhacungcap"){include("supplier.php");}
