@@ -64,7 +64,7 @@
           <th>Mã vật tư</th>
           <th>Tên vật tư</th>
           <th>SL đặt hàng</th>
-          <th>Đã nhập kho</th>
+          <th>SL đã nhập</th>
           <th>Đơn vị tính</th>
           <th>Nhóm vật tư</th>
         </tr>

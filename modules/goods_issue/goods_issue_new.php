@@ -125,9 +125,9 @@
                         <th style="text-align: center">Tên vật tư<br>
                           <select class="txtbox" style="width: 200px;" id="materials_name" name="materials_name" onchange="select_issue_materialID()"><option value="">Vui lòng chọn</option></select></th>
                           <th style="text-align: center;">Số lượng<br><input min="0" max="" class="txtbox" style="width: 70px" type="number" name="materialscount_in"></th>
-                          <th style="text-align: center">Tồn kho<br><div id="warehouse_contain_total" name=""><input style="width: 100px" class="txtbox" type="text" name="materials_total"></div></th>
-                          <th style="text-align: center">Mã vật tư<br><div id="get_materials_id" name="get_materials_id"><input style="width: 100px" class="txtbox" type="text" name="materials_id"></div></th>
-                          <th style="text-align: center">Đơn vị tính<br><div id="get_materials_unit" name="get_materials_unit"><input type="text" style="width: 100px;" class="txtbox" name="materials_unit"></div></th>
+                          <th style="text-align: center">Tồn kho<br><div id="warehouse_contain_total" name=""><input style="width: 70px" class="txtbox" type="text" name="materials_total" readonly="readonly"></div></th>
+                          <th style="text-align: center">Mã vật tư<br><div readonly="readonly" id="get_materials_id" name="get_materials_id"><input readonly="readonly" style="width: 100px" class="txtbox" type="text" name="materials_id"></div></th>
+                          <th style="text-align: center">ĐVT<br><div id="get_materials_unit" name="get_materials_unit"><input readonly="readonly" type="text" style="width: 70px;" class="txtbox" name="materials_unit"></div></th>
                           <th><input type="submit" name="addtocart" id="addtocart" class="btn btn-success" value="Thêm" /></th>
                         </tr>
                       </thead>
@@ -162,13 +162,19 @@
                     </tbody>
                   </table>         
                   <div class="modal-footer">
-                    <input type="submit" name="checkout" id="checkout" class="btn btn-success" value="Đặt hàng" />  
-                    <a href="index.php?id=dathang&view=TRUE"><input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy"></a>
+                    <input type="submit" name="checkout" id="checkout" class="btn btn-success" value="Xuất kho" />  
+                    <a href="index.php?id=xuatkho&view=true"><input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy"></a>
                   </div>
                 </form>
                 <?php
                 if(isset($_POST["checkout"]) && $_SESSION["item_new"] > 1){
-                  $goodsissue_id = $_POST["goodsissue_id"];
+                  $result  = mysql_query('select * from count ORDER BY count_order DESC');
+                  while ($row = mysql_fetch_array($result)){
+                    $a = getdate(); 
+                    $goodsissue_id = ($row[3].'-PXK'.$a['year']);
+                    $count_issue = $row[3];
+                  }
+                  // $goodsissue_id = $_POST["goodsissue_id"];
                   $warehouse_id = $_POST["warehouse_id"];
                   $goodsissue_date =date("Y-m-d",time($_POST['goodsissue_date']));
                   $goodsissue_user = $_SESSION["username"];
@@ -196,7 +202,7 @@
                   }
                   unset($_SESSION["warehouse_name"]);
                   unset($_SESSION["warehouse_id"]);
-                  $count_issue = $_SESSION['count_issue'];
+                  // $count_issue = $_SESSION['count_issue'];
                   $count_issue++;
                   mysql_query("UPDATE count SET count_issue= '$count_issue' WHERE id = 1");
                   echo "<meta http-equiv='refresh' content='0'>";

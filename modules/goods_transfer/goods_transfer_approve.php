@@ -8,7 +8,7 @@
     <div class="table-title">
       <div class="row">
         <div class="modal-header"> 
-          <h4 class="modal-title">Chỉnh sửa phiếu đặt hàng</h4>
+          <h4 class="modal-title">Duyệt phiếu chuyển kho</h4>
         </div>
       </div>
     </div>
@@ -32,8 +32,8 @@
           <input type="text" readonly="readonly" name="warehouse_name_in" style="width: 120px;" value="<?php echo $row["warehouse_name_in"] ?>">
         </div>
         <div class="clear"></div>
-        <div class="lfield">Ngày xuất dự kiến: <input class="txtbox" style="width: 100px;" type="text" name="goodstransfer_send_date" value="<?php echo date('d-m-Y',time($row['goodstransfer_send_date'])); ?>" readonly="readonly" ></div>
-        <div class="lfield">Ngày nhận dự kiến: <input class="txtbox" style="width: 100px;" type="text" name="goodstransfer_receive_date" value="<?php echo date('d-m-Y',time($row['goodstransfer_receive_date'])); ?>" readonly="readonly" ></div>
+        <div class="lfield" style="padding-left: 275px">Ngày xuất: <input class="txtbox" style="width: 120px;" type="text" name="goodstransfer_send_date" value="<?php echo date('d-m-Y',time($row['goodstransfer_send_date'])); ?>" readonly="readonly" ></div>
+        <div class="lfield" style="padding-left: 30px">Ngày nhận: <input class="txtbox" style="width: 120px;" type="text" name="goodstransfer_receive_date" value="<?php echo date('d-m-Y',time($row['goodstransfer_receive_date'])); ?>" readonly="readonly" ></div>
         <div class="clear" style="height: 30px"></div>
       </div>
       <?php } ?>
@@ -69,7 +69,7 @@
       <div class="modal-footer">
         <input style="float: left;" type="submit" name="print" id="checkout" class="btn btn-danger" value="In phiếu" />  
         <input type="submit" name="approve" id="checkout" class="btn btn-success" value="Duyệt phiếu" />
-        <a href="index.php?id=xuatkho&view=true"><input type="button" class="btn btn-default" data-dismiss="modal" value="Đóng"></a>
+        <a href="index.php?id=chuyenkho&view=true"><input type="button" class="btn btn-default" data-dismiss="modal" value="Đóng"></a>
       </div>
     </form> 
   </div>

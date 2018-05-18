@@ -8,7 +8,7 @@
     <div class="table-title">
       <div class="row">
         <div class="modal-header"> 
-          <h4 class="modal-title">Chỉnh sửa phiếu đặt hàng</h4>
+          <h4 class="modal-title">Thông tin phiếu xuất kho</h4>
         </div>
       </div>
     </div>

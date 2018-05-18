@@ -14,6 +14,7 @@ else {
   $page = $_GET['page'];
   $start = (($page-1)*$record_per_page);
 }
+$create_button = 0;
 ?>
 <!-- Kết thúc phân trang -->
 
@@ -25,7 +26,7 @@ else {
           <h2><b>ĐƠN ĐẶT HÀNG</b></h2>
         </div>
         <div class="col-sm-6">
-          <a href="index.php?id=dathang&new=true" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Tạo phiếu đặt hàng</span></a>            
+          <?php include("modules/permission/order_list.php"); ?>
         </div>
       </div>
     </div>
@@ -37,14 +38,16 @@ else {
         <th>Kho nhận hàng</th>
         <th>Nhà cung cấp</th>
         <th>Ngày đặt</th>
-        <th>Ngày nhận dự kiến</th>
+        <th>Ngày nhận</th>
+        <th>Người lập phiếu</th>
         <th>Tính năng</th>
       </tr>
     </thead>
     <tbody>
       <?php 
       $show = 1;
-      $sql = "SELECT * FROM orders AS tblorders INNER JOIN supplier as tblsupplier ON tblorders.supplier_id = tblsupplier.supplier_id INNER JOIN warehouse as tblwarehouse on tblorders.warehouse_id = tblwarehouse.warehouse_id LIMIT $start ,$record_per_page";
+      $select_warehouse = $_SESSION["select_warehouse"];
+      $sql = "SELECT * FROM orders AS tblorders INNER JOIN supplier as tblsupplier ON tblorders.supplier_id = tblsupplier.supplier_id INNER JOIN warehouse as tblwarehouse on tblorders.warehouse_id = tblwarehouse.warehouse_id WHERE $select_warehouse LIMIT $start ,$record_per_page";
       $result = mysql_query($sql);
       while ($row = mysql_fetch_array($result)) {
         $_SESSION['order_id'.$show] = $row['order_id']; 
@@ -63,7 +66,14 @@ else {
               if ($row1["materialscount_in"] <= $row1["materialscount_out"]) { $status = "<div class='label label-success'>ĐÃ NHẬP ĐỦ</div>";}
               if ($status == "<div class='label label-warning'>NHẬP THIẾU</div>"){break;}
             }
-            if ($tam == 0) { $status = "<div class='label label-default'>CHƯA NHẬP</div>";}
+            if ($tam == 0) {
+              if($row['approve'] == "wait"){ 
+                $status = "<div class='label label-default'>CHƯA DUYỆT</div>";
+              }
+              else {
+               $status = "<div class='label label-danger'>CHƯA NHẬP</div>"; 
+              }
+            }
             echo $status;
             ?>
           </td>
@@ -72,6 +82,7 @@ else {
           <td><?php echo $row['supplier_name'] ?></td>
           <td><?php echo $row['order_date'] ?></td>
           <td><?php echo $row['order_accept_date'] ?></td>
+          <td><?php echo $row['username'] ?></td>
           <td style="width: 170px;">
             <?php include("modules/permission/order_list.php"); ?>
           </td>

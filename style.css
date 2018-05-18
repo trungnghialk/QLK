@@ -1,0 +1,9 @@
+*{margin:0px;padding:0px;}
+.clear {clear: both;}
+.table {width: 900px; border: 0px solid; border-spacing: 0px; margin: 0px auto}
+.table .tr {width: 100%;}
+.table .tr .tdlabel {width:13%;text-align:right;}
+.table .tr .tdbox{width: 20%; margin: 0px;}
+td{ margin: 0px; padding: 0px; }
+.table .tr .tdbox .textbox {width: 95%; margin: 5%;}
+.table .tr .tdbox .textarea {width: 99%;margin:1%;}

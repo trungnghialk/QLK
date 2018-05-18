@@ -15,7 +15,7 @@
     </div>
     <!-- In ra các vật tư đã đặt hàng -->
     <?php 
-    if($_GET["order_id"] != $_SESSION["clear_order"]){
+    if($_GET["order_id"] != $_SESSION["clear"]){
       $order_id = $_GET["order_id"];
       $edit = 1;
       $sql = "SELECT * FROM orders_contain as a INNER JOIN materials as b ON a.materials_id = b.materials_id INNER JOIN materials_category as c on b.materials_cat_id = c.materials_cat_id WHERE a.order_id = '$order_id'";
@@ -28,7 +28,7 @@
         $_SESSION['materialscount_in'.$edit] = $row['materialscount_in'];
         $edit++;
       }
-      $_SESSION["clear_order"] = $_GET["order_id"];
+      $_SESSION["clear"] = $_GET["order_id"];
       $_SESSION["edit"] = $edit;
       $_SESSION["item"] = $edit;
     }
@@ -51,6 +51,16 @@
     }
     else{
       $_SESSION['supplier_id'] = $_POST['supplier_id'];
+    }
+    if(!isset($_POST['order_accept_date'])){
+      $sql ="SELECT * FROM orders WHERE order_id = '$order_id'";
+      $result = mysql_query($sql);
+      while ($row = mysql_fetch_array($result)) {
+        $_SESSION['order_accept_date'] = $row['order_accept_date'];
+      }
+    }
+    else{
+      $_SESSION['order_accept_date'] = $_POST['order_accept_date'];
     }
     // Kết thúc in các vật tư đã đặt hàng
     // Xác định vật tư mới thêm vào đã có hay chưa
@@ -115,7 +125,12 @@
                 <?php } ?>
               </select>
             </div>
-            <div class="lfield">Ngày nhận dự kiến: <input class="txtbox" style="width: 100px;" type="text" name="order_accept_date" value="<?php $a = getdate(); echo $a['mday'].'/'.$a['mon'].'/'.$a['year'];?>" ></div>
+            <div class="lfield">Ngày nhận dự kiến: <input class="txtbox" style="width: 100px;" type="text" name="order_accept_date" value="<?php 
+            if(isset($_SESSION['order_accept_date'])){echo date("d/m/Y",strtotime(str_replace('-', '/', $_SESSION['order_accept_date'])));}
+            else {$a = getdate(); echo $a['mday'].'/'.$a['mon'].'/'.$a['year']; } ?>" ></div>
+
+
+
             <div class="clear"></div>
             <div>
               Nhà cung cấp: 
@@ -162,12 +177,12 @@
                     <th>Tên vật tư<br>
                       <select style="width: 200px;" class="txtbox" id="materials_name" name="materials_name" onchange="select_materialID()"><option value="">Vui lòng chọn</option></select></th>
                       <th style="text-align: center;">Số lượng<br>
-                        <input style="width: 100px;" class="txtbox" style="width: 100px" type="" name="materialscount_in"></th>
+                        <input style="width: 100px;" class="txtbox" style="width: 100px" type="number" min="0" name="materialscount_in"></th>
                         <th style="text-align: center">Mã vật tư<br>
-                          <div id="get_materials_id" name="get_materials_id"><input style="width: 100px;" class="txtbox" type="text" name="materials_id"></div></th>
+                          <div id="get_materials_id" name="get_materials_id"><input style="width: 100px;" class="txtbox" type="text" name="materials_id" readonly="readonly"></div></th>
                           <th style="text-align: center">Đơn vị tính<br>
-                            <div id="get_materials_unit" name="get_materials_unit"><input style="width: 100px;" class="txtbox" type="text" name="materials_unit"></div></th>
-                            <th><input type="submit" name="addtocart" id="addtocart" class="btn btn-info" value="Thêm" /></th>
+                            <div id="get_materials_unit" name="get_materials_unit"><input style="width: 100px;" class="txtbox" type="text" name="materials_unit" readonly="readonly"></div></th>
+                            <th><input type="submit" name="addtocart" id="addtocart" class="btn btn-success" value="Thêm" /></th>
                           </tr>
                         </thead>
                       </table>
@@ -203,7 +218,7 @@
                     </tbody>
                   </table>         
                   <div class="modal-footer">
-                    <input type="submit" name="checkout" id="checkout" class="btn btn-info" value="Cập nhật" />  
+                    <input type="submit" name="checkout" id="checkout" class="btn btn-success" value="Cập nhật" />  
                     <a href="index.php?id=dathang&view=TRUE"><input type="button" class="btn btn-default" data-dismiss="modal" value="Đóng"></a>
                   </div>
                 </form>
@@ -211,7 +226,7 @@
                 <?php
                 if(isset($_POST["checkout"])){
                   $warehouse_id = $_POST["warehouse_id"];
-                  $order_accept_date = date("Y-m-d",time($_POST['order_accept_date']));
+                  $order_accept_date = date("Y-m-d",strtotime(str_replace('/', '-', $_POST["order_accept_date"])));
                   $supplier_id = $_POST["supplier_id"];
                   $SQL = "UPDATE ORDERS SET order_id = '$order_id', warehouse_id = '$warehouse_id', supplier_id = '$supplier_id', order_accept_date = '$order_accept_date' WHERE order_id = '$order_id'";
                   $result = mysql_query($SQL);

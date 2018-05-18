@@ -12,9 +12,23 @@
       $_SESSION["item_new"] = 1;
     }
     $item = $_SESSION["item_new"]; 
+    if($_SESSION["clear"] != "O"){
+      for ($i=1; $i <= $item ; $i++) { 
+        include ("clear.php");
+        $item = 1;
+      }
+      $_SESSION["clear"] = "O";
+    }
+
     $duplicate =0;   
     if(isset($_POST["supplier_id"])){$_SESSION["supplier_id"] = $_POST["supplier_id"];}
     if(isset($_POST['warehouse_id'])){$_SESSION['warehouse_id'] = $_POST['warehouse_id'];}
+    if(isset($_POST['order_accept_date'])){
+      $_SESSION['order_accept_date'] = $_POST['order_accept_date'];
+    } 
+    else {
+      $_SESSION['order_accept_date'] = date('Y-m-d',time());
+    }
     if (isset($_POST["materials_id"])) {
       for ($i=1; $i < $item ; $i++) { 
         if ($_POST["materials_id"] == $_SESSION["materials_id".$i]) {
@@ -77,7 +91,7 @@
               <?php } ?>
             </select>
           </div>
-          <div class="lfield">Ngày nhận dự kiến: <input required="" class="txtbox" style="width: 100px;" type="text" name="order_accept_date" value="<?php $a = getdate(); echo $a['mday'].'/'.$a['mon'].'/'.$a['year'];?>" ></div>
+          <div class="lfield">Ngày nhận: <input required="" class="txtbox" style="width: 150px;" type="date" min="2018-01-01" max="2020-12-30" name="order_accept_date" value="<?php echo $_SESSION['order_accept_date']; ?>" ></div>
           <div class="clear"></div>
           <div>
             Nhà cung cấp: 
@@ -93,109 +107,119 @@
                     unset($_SESSION["supplier_id"]);
                   };
                 }
-                    else {echo "Vui lòng chọn";} ?>
-                  </option>
+                else {echo "Vui lòng chọn";} ?>
+              </option>
+              <?php
+              $sql = "select * from supplier";
+              $result = mysql_query($sql);
+              while ($row = mysql_fetch_array($result)) {
+                ?>
+                <option value="<?php echo $row['supplier_id']; ?>"><?php echo $row['supplier_name']; ?></option>
+                <?php } ?>
+              </select>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <table class="table table-striped table-hover">
+            <thead>
+             <tr>
+              <th style="text-align: center">Nhóm vật tư<br>
+                <select style="width: 150px;" class="txtbox" id="materials_cat_name" name="materials_cat_name" onchange="select_material()">
+                  <option value="">Vui lòng chọn</option>
                   <?php
-                  $sql = "select * from supplier";
+                  $sql = "select * from materials_category";
                   $result = mysql_query($sql);
                   while ($row = mysql_fetch_array($result)) {
                     ?>
-                    <option value="<?php echo $row['supplier_id']; ?>"><?php echo $row['supplier_name']; ?></option>
+                    <option value="<?php echo $row['materials_cat_name']; ?>"><?php echo $row['materials_cat_name'];?></option>
                     <?php } ?>
                   </select>
-                </div>
-                <div class="clear"></div>
-              </div>
+
+                  <th style="text-align: center">Tên vật tư<br>
+                    <select class="txtbox" style="width: 200px;" id="materials_name" name="materials_name" onchange="select_materialID()"><option value="">Vui lòng chọn</option></select></th>
+                    <th style="text-align: center;">Số lượng<br><input class="txtbox" style="width: 100px" type="number" min="0" name="materialscount_in"></th>
+                    <th style="text-align: center">Mã vật tư<br><div id="get_materials_id" name="get_materials_id"><input readonly="readonly" style="width: 100px" class="txtbox" type="text" name="materials_id"></div></th>
+                    <th style="text-align: center">Đơn vị tính<br><div id="get_materials_unit" name="get_materials_unit"><input readonly="readonly" type="text" style="width: 100px;" class="txtbox" name="materials_unit"></div></th>
+                    <th><input type="submit" name="addtocart" id="addtocart" class="btn btn-success" value="Thêm" /></th>
+                  </tr>
+                </thead>
+              </table>
               <table class="table table-striped table-hover">
                 <thead>
                  <tr>
-                  <th style="text-align: center">Nhóm vật tư<br>
-                    <select style="width: 150px;" class="txtbox" id="materials_cat_name" name="materials_cat_name" onchange="select_material()">
-                      <option value="">Vui lòng chọn</option>
-                      <?php
-                      $sql = "select * from materials_category";
-                      $result = mysql_query($sql);
-                      while ($row = mysql_fetch_array($result)) {
-                        ?>
-                        <option value="<?php echo $row['materials_cat_name']; ?>"><?php echo $row['materials_cat_name'];?></option>
-                        <?php } ?>
-                      </select>
+                  <th>Mã vật tư</th>
+                  <th>Tên vật tư</th>
+                  <th>Số lượng</th>
+                  <th>Đơn vị tính</th>
+                  <th>Nhóm vật tư</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                if($item>1){
+                  for ($i=1; $i < $item; $i++) { 
+                   ?>
+                   <tr>
+                    <td><?php echo $_SESSION["materials_id".$i] ?></td>
+                    <td><?php echo $_SESSION["materials_name".$i] ?></td>
+                    <td><input style=" width: 50px" class="txtbox" type="text" name="<?php echo ('materialscount_in'.$i) ?>" value='<?php echo $_SESSION["materialscount_in".$i] ?>'></td>
+                    <td><?php echo $_SESSION["materials_unit".$i] ?></td>
+                    <td><?php echo $_SESSION["materials_cat_name".$i] ?></td>
+                  </tr> 
+                  <?php 
 
-                      <th style="text-align: center">Tên vật tư<br>
-                        <select class="txtbox" style="width: 200px;" id="materials_name" name="materials_name" onchange="select_materialID()"><option value="">Vui lòng chọn</option></select></th>
-                        <th style="text-align: center;">Số lượng<br><input class="txtbox" style="width: 100px" type="" name="materialscount_in"></th>
-                        <th style="text-align: center">Mã vật tư<br><div id="get_materials_id" name="get_materials_id"><input style="width: 100px" class="txtbox" type="text" name="materials_id"></div></th>
-                        <th style="text-align: center">Đơn vị tính<br><div id="get_materials_unit" name="get_materials_unit"><input type="text" style="width: 100px;" class="txtbox" name="materials_unit"></div></th>
-                        <th><input type="submit" name="addtocart" id="addtocart" class="btn btn-success" value="Thêm" /></th>
-                      </tr>
-                    </thead>
-                  </table>
-                  <table class="table table-striped table-hover">
-                    <thead>
-                     <tr>
-                      <th>Mã vật tư</th>
-                      <th>Tên vật tư</th>
-                      <th>Số lượng</th>
-                      <th>Đơn vị tính</th>
-                      <th>Nhóm vật tư</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                    if($item>1){
-                      for ($i=1; $i < $item; $i++) { 
-                       ?>
-                       <tr>
-                        <td><?php echo $_SESSION["materials_id".$i] ?></td>
-                        <td><?php echo $_SESSION["materials_name".$i] ?></td>
-                        <td><input style=" width: 50px" class="txtbox" type="text" name="<?php echo ('materialscount_in'.$i) ?>" value='<?php echo $_SESSION["materialscount_in".$i] ?>'></td>
-                        <td><?php echo $_SESSION["materials_unit".$i] ?></td>
-                        <td><?php echo $_SESSION["materials_cat_name".$i] ?></td>
-                      </tr> 
-                      <?php 
-
-                    } } ?>
-                  </tbody>
-                </table>         
-                <div class="modal-footer">
-                  <input type="submit" name="checkout" id="checkout" class="btn btn-success" value="Đặt hàng" />  
-                  <a href="index.php?id=dathang&view=TRUE"><input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy"></a>
-                </div>
-              </form>
-              <?php
-              if(isset($_POST["checkout"]) && $_SESSION["item_new"] > 1){
-                $order_id = $_POST["order_id"];
-                $warehouse_id = $_POST["warehouse_id"];
-                $order_accept_date =date("Y-m-d",time($_POST['order_accept_date']));
-                $supplier_id = $_POST["supplier_id"];
-                $SQL = "INSERT INTO ORDERS(order_id, warehouse_id, supplier_id, order_accept_date,username) VALUES ('$order_id', '$warehouse_id', '$supplier_id', '$order_accept_date','')";
-                $result = mysql_query($SQL);
-
-                for ($i=1; $i < $item ; $i++) { 
-                  $materials_id = $_SESSION["materials_id".$i];
-                  $materialscount_in = $_POST["materialscount_in".$i];
-                  if($materialscount_in > 0){
-                    $SQL = "INSERT INTO ORDERS_CONTAIN(order_id, materials_id, materialscount_in) VALUES ('$order_id', '$materials_id', '$materialscount_in')";
-                    $result = mysql_query($SQL);
-                  }
-                  unset($_SESSION["item_new"]);
-                  unset($_SESSION["materials_id".$i]);
-                  unset($_SESSION["materials_name".$i]);
-                  unset($_SESSION["materialscount_in".$i]);
-                  unset($_SESSION["materials_unit".$i]);
-                  unset($_SESSION["materials_cat_name".$i]);
-                  unset($_SESSION["warehouse_name"]);
-                  unset($_SESSION["warehouse_id"]);
-                  unset($_SESSION["supplier_id"]);
-                  unset($_SESSION["supplier_name"]);
-                }
-                $count_order = $_SESSION['count_order'];
-                $count_order++;
-                mysql_query("UPDATE count SET count_order= '$count_order' WHERE id = 1");
-                echo "<meta http-equiv='refresh' content='0'>";
-              }
-              ?>
+                } } ?>
+              </tbody>
+            </table>         
+            <div class="modal-footer">
+              <input type="submit" name="checkout" id="checkout" class="btn btn-success" value="Đặt hàng" />  
+              <a href="index.php?id=dathang&view=TRUE"><input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy"></a>
             </div>
-          </div>
-          <!-- Edit Modal HTML -->
-          <script src="js/custom.js"></script>}
+          </form>
+          <?php
+          if(isset($_POST["checkout"]) && $_SESSION["item_new"] > 1){
+            $result  = mysql_query('select * from count ORDER BY count_order DESC');
+            while ($row = mysql_fetch_array($result)){
+              $a = getdate(); 
+              $order_id = ($row[0].'-PMH'.$a['year']);
+              $count_order = $row[0];
+            }
+
+            // $order_id = $_POST["order_id"];
+            $warehouse_id = $_POST["warehouse_id"];
+            $order_accept_date = date("Y-m-d",strtotime(str_replace('/', '-', $_POST["order_accept_date"])));
+            $supplier_id = $_POST["supplier_id"];
+            $SQL = "INSERT INTO ORDERS(order_id, warehouse_id, supplier_id, order_accept_date,username) VALUES ('$order_id', '$warehouse_id', '$supplier_id', '$order_accept_date','')";
+            $result = mysql_query($SQL);
+
+            for ($i=1; $i < $item ; $i++) { 
+              $materials_id = $_SESSION["materials_id".$i];
+              $materialscount_in = $_POST["materialscount_in".$i];
+              if($materialscount_in > 0){
+                $SQL = "INSERT INTO ORDERS_CONTAIN(order_id, materials_id, materialscount_in) VALUES ('$order_id', '$materials_id', '$materialscount_in')";
+                $result = mysql_query($SQL);
+              }
+              unset($_SESSION["item_new"]);
+              unset($_SESSION["materials_id".$i]);
+              unset($_SESSION["materials_name".$i]);
+              unset($_SESSION["materialscount_in".$i]);
+              unset($_SESSION["materials_unit".$i]);
+              unset($_SESSION["materials_cat_name".$i]);
+              unset($_SESSION["warehouse_name"]);
+              unset($_SESSION["warehouse_id"]);
+              unset($_SESSION["supplier_id"]);
+              unset($_SESSION["supplier_name"]);
+              unset($_SESSION["order_accept_date"]);
+            }
+            // $count_order = $_SESSION['count_order'];
+            $count_order++;
+            mysql_query("UPDATE count SET count_order= '$count_order' WHERE id = 1");
+            echo "<meta http-equiv='refresh' content='0'>";
+
+          }
+
+          ?>
+        </div>
+      </div>
+      <!-- Edit Modal HTML -->
+      <script src="js/custom.js"></script>}
