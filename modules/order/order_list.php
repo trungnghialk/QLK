@@ -80,7 +80,7 @@ $create_button = 0;
           <td><?php echo $row['order_id'] ?></td>
           <td><?php echo $row['warehouse_name'] ?></td>
           <td><?php echo $row['supplier_name'] ?></td>
-          <td><?php echo $row['order_date'] ?></td>
+          <td><?php echo date('d/m/Y', time($row['order_date'])) ?></td>
           <td><?php echo $row['order_accept_date'] ?></td>
           <td><?php echo $row['username'] ?></td>
           <td style="width: 170px;">

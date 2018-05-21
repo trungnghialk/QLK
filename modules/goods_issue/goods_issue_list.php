@@ -7,7 +7,9 @@
             <h2><b>DANH SÁCH PHIẾU XUẤT KHO</b></h2>
           </div>
           <div class="col-sm-6">
-            <a href="index.php?id=xuatkho&new=true" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Tạo phiếu xuất kho</span></a>            
+            <?php 
+            $create_button = 0;
+            include("/modules/permission/issue.php") ?>
           </div>
         </div>
       </div>
@@ -25,6 +27,7 @@
       </thead>
       <tbody>
         <?php 
+
         $show = 1;
         $sql = "SELECT * FROM goods_issue INNER JOIN warehouse ON goods_issue.warehouse_id = warehouse.warehouse_id";
         $result = mysql_query($sql);
@@ -35,7 +38,7 @@
             <td><?php echo $row['goodsissue_id'] ?></td>
             <td></td>
             <td><?php echo $row['warehouse_name'] ?></td>
-            <td><?php echo $row['goodsissue_date'] ?></td>
+            <td><?php echo date('d/m/Y',time($row['goodsissue_date'])) ?></td>
             <td><?php echo $row['goodsissue_user'] ?></td>
             <td><?php echo $row['goodsissue_note'] ?></td>
             <td style="width: 150px;">

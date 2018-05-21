@@ -42,58 +42,62 @@
     }
     ?>
     <form name="add_name" id="add_name" action="" method="POST">  
-
       <div class="modal-body">
-        <div class="lbcode">Mã phiếu: <input style="text-align: center;" name="order_id" id="order_id" readonly="readonly" value="<?php echo $_GET['order_id']; ?>"></div>
-        <div class="lfield">
-          Kho nhận hàng: 
-          <input type="text" readonly="readonly" name="warehouse_name" style="width: 120px;" value="<?php echo $warehouse_name ?>">
-        </div>
-        <div class="lfield">Ngày nhận dự kiến: <input class="txtbox" style="width: 100px;" type="text" name="order_accept_date" value="<?php echo date("d-m-Y", time($order_accept_date)) ?>" readonly="readonly" ></div>
-        <div class="clear"></div>
-        <div>
-          Nhà cung cấp: 
-          <input type="text" readonly="readonly" name="supplier_name" style="width: 690px;" value="<?php echo $supplier_name ?>">
-        </div>
-        <div class="clear" style="height: 30px"></div>
-      </div>
-      <table class="table table-striped table-hover">
-        <thead>
-         <tr>
-          <th></th>
-          <th>Mã vật tư</th>
-          <th>Tên vật tư</th>
-          <th>Số lượng</th>
-          <th>Đơn vị tính</th>
-          <th>Nhóm vật tư</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Xuất các vật tư đã có và đã thêm ra màn hình. Số lượng nằm trong textbox để cập nhật -->
-        <?php
-        if(isset($_POST["materials_id"]) || isset($_GET["order_id"])){
-          for ($i=1; $i < $item; $i++) { 
-           ?>
+        <table class="tablec">
+          <tr class="tr">
+            <td class="tdlabel">Mã phiếu:</td>
+            <td class="tdbox"><input class="textbox id" name="order_id" id="order_id" readonly="readonly" value="<?php echo $_GET['order_id']; ?>"></td>
+            <td class="tdlabel">Kho nhận:</td>
+            <td class="tdbox"><input type="textbox" readonly="readonly" name="warehouse_name" style="width: 120px;" value="<?php echo $warehouse_name ?>"></td>
+            <td class="tdlabel">Ngày nhận:</td>
+            <td class="tdbox"><input class="textbox" type="date" name="order_accept_date" value="<?php echo $order_accept_date; ?>" readonly="readonly" ></td>
+          </tr>
+          <tr class="tr">
+            <td class="tdlabel">Nhà cung cấp:</td>
+            <td colspan="5" class="tdbox"><input class="textarea" type="text" readonly="readonly" name="supplier_name" value="<?php echo $supplier_name ?>"></td>
+          </tr>
+          <tr class="tr">
+            <td class="tdlabel">Diễn giải:</td>
+            <td colspan="5" class="tdbox"><textarea rows="3" cols="108" class="textarea" style="margin: 1%"></textarea></td>
+          </tr>
+        </table>
+        <table class="table table-striped table-hover">
+          <thead>
            <tr>
-            <td></td>
-            <td><?php echo $_SESSION["materials_id".$i] ?></td>
-            <td style="width: 300px"><?php echo $_SESSION["materials_name".$i] ?></td>
-            <td><?php echo $_SESSION["materialscount_in".$i] ?></td>
-            <td><?php echo $_SESSION["materials_unit".$i] ?></td>
-            <td><?php echo $_SESSION["materials_cat_name".$i] ?></td>
-          </tr> 
-          <?php 
+            <th></th>
+            <th>Mã vật tư</th>
+            <th>Tên vật tư</th>
+            <th>Số lượng</th>
+            <th>Đơn vị tính</th>
+            <th>Nhóm vật tư</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Xuất các vật tư đã có và đã thêm ra màn hình. Số lượng nằm trong textbox để cập nhật -->
+          <?php
+          if(isset($_POST["materials_id"]) || isset($_GET["order_id"])){
+            for ($i=1; $i < $item; $i++) { 
+             ?>
+             <tr>
+              <td></td>
+              <td><?php echo $_SESSION["materials_id".$i] ?></td>
+              <td style="width: 300px"><?php echo $_SESSION["materials_name".$i] ?></td>
+              <td><?php echo $_SESSION["materialscount_in".$i] ?></td>
+              <td><?php echo $_SESSION["materials_unit".$i] ?></td>
+              <td><?php echo $_SESSION["materials_cat_name".$i] ?></td>
+            </tr> 
+            <?php 
   // Kết thúc xuaasrt vật tư ra màn hình
-        } 
-      } ?>
-    </tbody>
-  </table>
-  <div class="modal-footer">
-    <input style="float: left;" type="submit" name="checkout" id="checkout" class="btn btn-danger" value="Hủy phiếu" />  
-    <input type="submit" name="approve" id="checkout" class="btn btn-success" value="Duyệt phiếu" />  
-    <a href="index.php?id=dathang&view=TRUE"><input type="button" class="btn btn-default" data-dismiss="modal" value="Đóng"></a>
-  </div>
-</form> 
+          } 
+        } ?>
+      </tbody>
+    </table>
+    <div class="modal-footer">
+      <input style="float: left;" type="submit" name="checkout" id="checkout" class="btn btn-danger" value="Hủy phiếu" />  
+      <input type="submit" name="approve" id="checkout" class="btn btn-success" value="Duyệt phiếu" />  
+      <a href="index.php?id=dathang&view=TRUE"><input type="button" class="btn btn-default" data-dismiss="modal" value="Đóng"></a>
+    </div>
+  </form> 
 </div>
 </div>
 <!-- Edit Modal HTML -->

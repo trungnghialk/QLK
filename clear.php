@@ -1,20 +1,36 @@
 <?php 
-// Clear phiếu đặt hàng
+for ($i=1; $i < $_SESSION["tam"] ; $i++) { 
+	unset($_SESSION["materials_id".$i]);
+	unset($_SESSION["materials_name".$i]);
+	unset($_SESSION["materials_cat_name".$i]);
+	unset($_SESSION["materialscount_in".$i]);
+	unset($_SESSION["materials_unit".$i]);
+	unset($_SESSION["materialscount".$i]);
+	unset($_SESSION["materialscount_in".$i]);
+	unset($_SESSION["materialscount_out".$i]);
+	unset($_SESSION["materials_total".$i]);
+}
 unset($_SESSION["item_new"]);
-unset($_SESSION["materials_id".$i]);
-unset($_SESSION["materials_name".$i]);
 unset($_SESSION["supplier_id"]);
 unset($_SESSION["supplier_name"]);
-unset($_SESSION["materials_cat_name".$i]);
-unset($_SESSION["materialscount_in".$i]);
-unset($_SESSION["materials_unit".$i]);
-unset($_SESSION['order_id']);
-unset($_SESSION['count_order']);
-unset($_SESSION['warehouse_id']);
-unset($_SESSION['warehouse_name']);
+unset($_SESSION["order_id"]);
 unset($_SESSION["order_accept_date"]);
-// unset($_SESSION['materialscount'.$i])
-
-
-
+unset($_SESSION["count_order"]);
+unset($_SESSION["warehouse_id"]);
+unset($_SESSION["warehouse_name"]);
+unset($_SESSION["goodsreceipt_date"]);
+unset($_SESSION["goodsreceipt_id"]);
+unset($_SESSION["count_receipt"]);
+unset($_SESSION['goodsissue_id']);
+unset($_SESSION["goodsissue_date"]);
+unset($_SESSION['count_issue']);
+unset($_SESSION['warehouse_id_out']);
+unset($_SESSION['warehouse_id_in']);
+unset($_SESSION['goodstransfer_id']);
+unset($_SESSION['goodstransfer_send_date']);
+unset($_SESSION['goodstransfer_receive_date']);
+unset($_SESSION['count_transfer']);
+unset($_SESSION["warehouse_id_receive"]);
+unset($_SESSION["item"]);
+unset($_SESSION["edit"]);
 ?>

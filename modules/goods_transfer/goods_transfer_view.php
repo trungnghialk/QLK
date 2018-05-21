@@ -19,19 +19,28 @@
     <form name="add_name" id="add_name" action="" method="POST">  
 
       <div class="modal-body">
-        <div class="lbcode">Mã phiếu: <input style="text-align: center;" name="goodstransfer_id" id="goodstransfer_id" readonly="readonly" value="<?php echo $_GET['goodstransfer_id']; ?>"></div>
-        <div class="lfield">
-          Kho Xuất hàng: 
-          <input type="text" readonly="readonly" name="warehouse_name_out" style="width: 120px;" value="<?php echo $row["warehouse_name_out"] ?>">
-        </div>
-                <div class="lfield">
-          Kho Nhận hàng: 
-          <input type="text" readonly="readonly" name="warehouse_name_in" style="width: 120px;" value="<?php echo $row["warehouse_name_in"] ?>">
-        </div>
-        <div class="clear"></div>
-        <div class="lfield" style="padding-left: 275px">Ngày xuất: <input class="txtbox" style="width: 120px;" type="text" name="goodstransfer_send_date" value="<?php echo date('d-m-Y',time($row['goodstransfer_send_date'])); ?>" readonly="readonly" ></div>
-        <div class="lfield" style="padding-left: 30px">Ngày nhận: <input class="txtbox" style="width: 120px;" type="text" name="goodstransfer_receive_date" value="<?php echo date('d-m-Y',time($row['goodstransfer_receive_date'])); ?>" readonly="readonly" ></div>
-        <div class="clear" style="height: 30px"></div>
+        <table class="tablec">
+          <tr class="tr">
+            <td class="tdlabel">Mã P.Chuyển:</td>
+            <td class="tdbox"><input class="textbox id" name="goodstransfer_id" id="goodstransfer_id" readonly="readonly" value="<?php echo $_GET['goodstransfer_id']; ?>"></td>
+            <td class="tdlabel">Kho xuất:</td>
+            <td class="tdbox"><input class="textbox" type="text" readonly="readonly" name="warehouse_name_out" value="<?php echo $row["warehouse_name_out"] ?>"></td>
+            <td class="tdlabel">Ngày xuất:</td>
+            <td class="tdbox"><input class="textbox" type="date" name="goodstransfer_send_date" value="<?php echo $row['goodstransfer_send_date']; ?>" readonly="readonly" ></td>
+          </tr>
+          <tr class="tr">
+            <td class="tdlabel"></td>
+            <td class="tdbox"></td>
+            <td class="tdlabel">Kho nhận:</td>
+            <td class="tdbox"><input class="textbox" type="text" readonly="readonly" name="warehouse_name_in" value="<?php echo $row["warehouse_name_in"] ?>"></td>
+            <td class="tdlabel">Ngày nhận:</td>
+            <td class="tdbox"><input class="textbox" type="date" name="goodstransfer_receive_date" value="<?php echo $row['goodstransfer_receive_date']; ?>" readonly="readonly" ></td>
+          </tr>
+          <tr class="tr">
+            <td class="tdlabel">Diễn giải:</td>
+            <td colspan="5" class="tdbox"><textarea rows="3" cols="108" class="textarea" style="margin: 1%"></textarea></td>
+          </tr>
+        </table>
       </div>
       <?php } ?>
       <table class="table table-striped table-hover">

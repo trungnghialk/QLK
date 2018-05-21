@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `goods_issue` (
 DROP TABLE IF EXISTS `goods_receipt`;
 CREATE TABLE IF NOT EXISTS `goods_receipt` (
   `goodsreceipt_id` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `goodsreceipt_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `goodsreceipt_note` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `goodsreceipt_date` date NOT NULL,
   `goodsreceipt_user` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `warehouse_id` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `goods_receipt` (
 -- Dumping data for table `goods_receipt`
 --
 
-INSERT INTO `goods_receipt` (`goodsreceipt_id`, `goodsreceipt_type`, `goodsreceipt_date`, `goodsreceipt_user`, `warehouse_id`, `order_id`, `goodsreceipt_created`) VALUES
+INSERT INTO `goods_receipt` (`goodsreceipt_id`, `goodsreceipt_note`, `goodsreceipt_date`, `goodsreceipt_user`, `warehouse_id`, `order_id`, `goodsreceipt_created`) VALUES
 ('1-PNK2018', 'Nhập kho', '2018-04-26', 'trungnghialk', '1', '1-PMH2018', '2018-04-26 13:35:46'),
 ('2-PNK2018', 'Nhập kho', '2018-04-26', 'trungnghialk', '1', '1-PMH2018', '2018-04-26 13:35:53'),
 ('3-PNK2018', 'Nhập kho', '2018-04-26', 'trungnghialk', '1', '1-PMH2018', '2018-04-26 13:36:09'),

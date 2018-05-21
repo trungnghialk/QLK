@@ -1,9 +1,20 @@
  <?php 
- $order_id = $_GET["order_id"];
- $SQL = "SELECT order_id FROM orders WHERE order_id ='$order_id'";
- $result = mysql_query($SQL);
- if (mysql_fetch_row($result) != NULL){  ?>
- <div class="container">
+     if (!isset($_SESSION["item"])) {
+      $_SESSION["item"] = 1;
+    }
+ if ($_SESSION["clear"] != "O" || $_SESSION["tam"] != "receive_new")  {
+   $_SESSION["tam"] = $_SESSION["item"];
+   include("clear.php");
+   $_SESSION["clear"] = "O";
+   $_SESSION["tam"] = "receive_new";
+   $_SESSION["edit"] = 1;
+   $_SESSION["item"] = 1;
+ }
+$order_id = $_GET["order_id"];
+$SQL = "SELECT order_id FROM orders WHERE order_id ='$order_id'";
+$result = mysql_query($SQL);
+if (mysql_fetch_row($result) != NULL){  ?>
+<div class="container">
   <div class="table-wrapper" style="width: 900px; margin: 80px auto;">
     <div class="table-title">
       <div class="row">
@@ -14,7 +25,6 @@
     </div>
     <?php 
     if(isset($_GET["order_id"])){
-      $order_id = $_GET["order_id"];
       $edit = 1;
       $sql = "SELECT * FROM orders_contain as a INNER JOIN materials as b ON a.materials_id = b.materials_id INNER JOIN materials_category as c on b.materials_cat_id = c.materials_cat_id WHERE a.order_id = '$order_id'";
       $result = mysql_query($sql);
@@ -37,28 +47,40 @@
       }
     }
     $item = $_SESSION["item"];
-    ?>
-    <form name="add_name" id="add_name" action="" method="POST">  
-      <?php $result  = mysql_query('select * from count ORDER BY count_receipt DESC');
-      while ($row = mysql_fetch_array($result)){
-        $a = getdate(); 
-        $_SESSION['goodsreceipt_id'] = ($row[2].'-PNK'.$a['year']);
-        $_SESSION['count_receipt'] = $row[2];
-      } ?>
-      <div class="modal-body">
-        <div class="lbcode">Mã phiếu nhập: <input style="text-align: center;" name="goodsreceipt_id" id="goodsreceipt_id" readonly="readonly" value="<?php echo $_SESSION['goodsreceipt_id']; ?>"></div>
-        <div class="lfield">
-          Kho nhận hàng: 
-          <input type="text" readonly="readonly" name="warehouse_name" style="width: 120px;" value="<?php echo $warehouse_name ?>">
-        </div>
-        <div class="lfield">Ngày nhận: <input class="txtbox" style="width: 100px;" type="text" name="goodsreceipt_date" value="<?php echo (date("d-m-Y",time())) ?>" ></div>
-        <div class="clear"></div>
-        <div> 
-          Nhà cung cấp: 
-          <input type="text" readonly="readonly" name="supplier_name" style="width: 675px;" value="<?php echo $supplier_name ?>">
-        </div>
-        <div class="clear" style="height: 30px"></div>
-      </div>
+    if(isset($_POST["goodsreceipt_date"])){
+      $_SESSION["goodsreceipt_date"] = $_POST["goodsreceipt_date"];
+    }
+    else {
+     $_SESSION["goodsreceipt_date"] = date("Y-m-d",time());
+   }
+   ?>
+   <form name="add_name" id="add_name" action="" method="POST">  
+    <?php $result  = mysql_query('select * from count ORDER BY count_receipt DESC');
+    while ($row = mysql_fetch_array($result)){
+      $a = getdate(); 
+      $_SESSION['goodsreceipt_id'] = ($row[2].'-PNK'.$a['year']);
+      $_SESSION['count_receipt'] = $row[2];
+    } ?>
+    <div class="modal-body">
+
+      <table class="tablec">
+        <tr class="tr">
+          <td class="tdlabel">Mã phiếu:</td>
+          <td class="tdbox"><input class="textbox id" name="goodsreceipt_id" id="goodsreceipt_id" readonly="readonly" value="<?php echo $_SESSION['goodsreceipt_id']; ?>"></td>
+          <td class="tdlabel">Kho nhận:</td>
+          <td class="tdbox"><input class="textbox" type="text" readonly="readonly" name="warehouse_name" value="<?php echo $warehouse_name ?>"></td>
+          <td class="tdlabel">Ngày nhận:</td>
+          <td class="tdbox"><input class="textbox" type="date" name="goodsreceipt_date" value="<?php echo $_SESSION['goodsreceipt_date']; ?>" ></td>
+        </tr>
+        <tr class="tr">
+          <td class="tdlabel">Nhà cung cấp:</td>
+          <td colspan="5" class="tdbox"><input class="textbox_wide" type="text" readonly="readonly" name="supplier_name" value="<?php echo $supplier_name ?>"></td>
+        </tr>
+        <tr class="tr">
+          <td class="tdlabel">Diễn giải:</td>
+          <td colspan="5" class="tdbox"><textarea rows="3" cols="108" class="textarea" style="margin: 1%"></textarea></td>
+        </tr>
+      </table>
       <table class="table table-striped table-hover">
         <thead>
          <tr>
@@ -115,7 +137,7 @@
     }
 
     // $goodsreceipt_id = $_SESSION["goodsreceipt_id"];
-    $goodsreceipt_type = "Nhập kho";
+    $goodsreceipt_note = "Nhập kho";
     $goodsreceipt_date = date("Y-m-d",time($_POST["goodsreceipt_date"]));
     $goodsreceipt_user = $_SESSION["username"];
     $warehouse_id = $_SESSION["warehouse_id"];
@@ -142,7 +164,7 @@
     }
     if(isset($available) == "true"){
       $available = "fail";   
-      $sql = "INSERT INTO goods_receipt (goodsreceipt_id, goodsreceipt_type, goodsreceipt_date, goodsreceipt_user, warehouse_id, order_id) VALUES ('$goodsreceipt_id','$goodsreceipt_type','$goodsreceipt_date','$goodsreceipt_user','$warehouse_id', '$order_id') ";
+      $sql = "INSERT INTO goods_receipt (goodsreceipt_id, goodsreceipt_note, goodsreceipt_date, goodsreceipt_user, warehouse_id, order_id) VALUES ('$goodsreceipt_id','$goodsreceipt_note','$goodsreceipt_date','$goodsreceipt_user','$warehouse_id', '$order_id') ";
       mysql_query($sql);
       // $count_receipt = $_SESSION['count_receipt'];
       $count_receipt++;

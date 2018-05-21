@@ -14,95 +14,104 @@
       </div>
     </div>
     <!-- In ra các vật tư đã đặt hàng -->
-    <?php 
-    if($_GET["order_id"] != $_SESSION["clear"]){
-      $order_id = $_GET["order_id"];
-      $edit = 1;
-      $sql = "SELECT * FROM orders_contain as a INNER JOIN materials as b ON a.materials_id = b.materials_id INNER JOIN materials_category as c on b.materials_cat_id = c.materials_cat_id WHERE a.order_id = '$order_id'";
-      $result = mysql_query($sql);
-      while ($row = mysql_fetch_array($result)) {
-        $_SESSION["materials_id".$edit] = $row["materials_id"];
-        $_SESSION['materials_name'.$edit] = $row['materials_name'];
-        $_SESSION['materials_cat_name'.$edit] = $row['materials_cat_name'];
-        $_SESSION['materials_unit'.$edit] = $row['materials_unit'];
-        $_SESSION['materialscount_in'.$edit] = $row['materialscount_in'];
-        $edit++;
-      }
-      $_SESSION["clear"] = $_GET["order_id"];
-      $_SESSION["edit"] = $edit;
-      $_SESSION["item"] = $edit;
+  <?php 
+      if (!isset($_SESSION["item"])) {
+      $_SESSION["item"] = 1;
     }
-    if(!isset($_POST['warehouse_id'])){
-      $sql ="SELECT * FROM orders INNER JOIN warehouse on orders.warehouse_id = warehouse.warehouse_id WHERE orders.order_id = '$order_id'";
-      $result = mysql_query($sql);
-      while ($row = mysql_fetch_array($result)) {
-        $_SESSION['warehouse_id'] = $row['warehouse_id'];
-      }
+  if($_GET["order_id"] != $_SESSION["clear"] or $_SESSION["tam"] != "order_edit"){
+    $_SESSION["tam"] = $_SESSION["item"];
+    include("clear.php");
+    $_SESSION["item"] = 1;
+    $_SESSION["edit"] = 1;
+    $_SESSION["tam"] = "order_edit";
+    $_SESSION["clear"] = $_GET["order_id"];
+  }
+    $order_id = $_GET["order_id"];
+    $edit = 1;
+    $sql = "SELECT * FROM orders_contain as a INNER JOIN materials as b ON a.materials_id = b.materials_id INNER JOIN materials_category as c on b.materials_cat_id = c.materials_cat_id WHERE a.order_id = '$order_id'";
+    $result = mysql_query($sql);
+    while ($row = mysql_fetch_array($result)) {
+      $_SESSION["materials_id".$edit] = $row["materials_id"];
+      $_SESSION['materials_name'.$edit] = $row['materials_name'];
+      $_SESSION['materials_cat_name'.$edit] = $row['materials_cat_name'];
+      $_SESSION['materials_unit'.$edit] = $row['materials_unit'];
+      $_SESSION['materialscount_in'.$edit] = $row['materialscount_in'];
+      $edit++;
     }
-    else{
-      $_SESSION['warehouse_id'] = $_POST['warehouse_id'];
+    $_SESSION["edit"] = $edit;
+    $_SESSION["item"] = $edit;
+  if(!isset($_POST['warehouse_id'])){
+    $sql ="SELECT * FROM orders INNER JOIN warehouse on orders.warehouse_id = warehouse.warehouse_id WHERE orders.order_id = '$order_id'";
+    $result = mysql_query($sql);
+    while ($row = mysql_fetch_array($result)) {
+      $_SESSION['warehouse_id'] = $row['warehouse_id'];
     }
-    if(!isset($_POST['supplier_id'])){
-      $sql ="SELECT * FROM orders INNER JOIN supplier on orders.supplier_id = supplier.supplier_id WHERE orders.order_id = '$order_id'";
-      $result = mysql_query($sql);
-      while ($row = mysql_fetch_array($result)) {
-        $_SESSION['supplier_id'] = $row['supplier_id'];
-      }
+  }
+  else{
+    $_SESSION['warehouse_id'] = $_POST['warehouse_id'];
+  }
+  if(!isset($_POST['supplier_id'])){
+    $sql ="SELECT * FROM orders INNER JOIN supplier on orders.supplier_id = supplier.supplier_id WHERE orders.order_id = '$order_id'";
+    $result = mysql_query($sql);
+    while ($row = mysql_fetch_array($result)) {
+      $_SESSION['supplier_id'] = $row['supplier_id'];
     }
-    else{
-      $_SESSION['supplier_id'] = $_POST['supplier_id'];
+  }
+  else{
+    $_SESSION['supplier_id'] = $_POST['supplier_id'];
+  }
+  if(!isset($_POST['order_accept_date'])){
+    $sql ="SELECT * FROM orders WHERE order_id = '$order_id'";
+    $result = mysql_query($sql);
+    while ($row = mysql_fetch_array($result)) {
+      $_SESSION['order_accept_date'] = $row['order_accept_date'];
     }
-    if(!isset($_POST['order_accept_date'])){
-      $sql ="SELECT * FROM orders WHERE order_id = '$order_id'";
-      $result = mysql_query($sql);
-      while ($row = mysql_fetch_array($result)) {
-        $_SESSION['order_accept_date'] = $row['order_accept_date'];
-      }
-    }
-    else{
-      $_SESSION['order_accept_date'] = $_POST['order_accept_date'];
-    }
+  }
+  else{
+    $_SESSION['order_accept_date'] = $_POST['order_accept_date'];
+  }
     // Kết thúc in các vật tư đã đặt hàng
     // Xác định vật tư mới thêm vào đã có hay chưa
-    $item = $_SESSION["item"];
-
-    if (isset($_POST["materials_id"])) {
-      $duplicate =0;
-      for ($i=1; $i < $item ; $i++) { 
-        if ($_POST["materials_id"] == $_SESSION["materials_id".$i]) {
-          $duplicate =1;
-          break; 
-        }
+  $item = $_SESSION["item"];
+  if (isset($_POST["materials_id"])) {
+    $duplicate =0;
+    for ($i=1; $i < $item ; $i++) { 
+      if ($_POST["materials_id"] == $_SESSION["materials_id".$i]) {
+        $duplicate =1;
+        break; 
       }
     }
+  }
     // Kết thúc xác định các vật tư mới thêm đã có hay chưa
     // Thêm 1 vật tư vào giỏ hàng
-    if (isset($_POST["addtocart"])) {
-      if ($duplicate == 0) {
-        $_SESSION["materials_name".$item] = $_POST["materials_name"];
-        $_SESSION["materials_cat_name".$item] = $_POST["materials_cat_name"];
-        $_SESSION["materialscount_in".$item] = $_POST["materialscount_in"];
-        $_SESSION["materials_id".$item] = $_POST["materials_id"];
-        $_SESSION["materials_unit".$item] = $_POST["materials_unit"];
-        $item++ ;
-        $_SESSION["item"] = $item;
-      }
-      if ($duplicate == 1) { 
-        for ($i=1; $i < $item ; $i++) { 
-          if ($_POST["materials_id"] == $_SESSION["materials_id".$i]) {
-            $_SESSION["materialscount_in".$i] += $_POST["materialscount_in"];
-          }
+  if (isset($_POST["addtocart"])) {
+    if ($duplicate == 0) {
+      $_SESSION["materials_name".$item] = $_POST["materials_name"];
+      $_SESSION["materials_cat_name".$item] = $_POST["materials_cat_name"];
+      $_SESSION["materialscount_in".$item] = $_POST["materialscount_in"];
+      $_SESSION["materials_id".$item] = $_POST["materials_id"];
+      $_SESSION["materials_unit".$item] = $_POST["materials_unit"];
+      $item++ ;
+      $_SESSION["item"] = $item;
+    }
+    if ($duplicate == 1) { 
+      for ($i=1; $i < $item ; $i++) { 
+        if ($_POST["materials_id"] == $_SESSION["materials_id".$i]) {
+          $_SESSION["materialscount_in".$i] += $_POST["materialscount_in"];
         }
-      }}
-      ?>
-      <!-- Kết thúc thêm 1 vật tư vào giỏ hàng -->
-      <form name="add_name" id="add_name" action="" method="POST">  
+      }
+    }}
+    ?>
+    <!-- Kết thúc thêm 1 vật tư vào giỏ hàng -->
+    <form name="add_name" id="add_name" action="" method="POST">  
 
-        <div class="modal-body">
-          <div class="lbcode">Mã phiếu: <input style="text-align: center;" name="order_id" id="order_id" readonly="readonly" value="<?php echo $_GET['order_id']; ?>"></div>
-          <div class="lfield">
-            Kho nhận hàng: 
-            <select class="txtbox" name="warehouse_id" id="warehouse_id">
+      <div class="modal-body">
+        <table class="tablec">
+          <tr class="tr">
+            <td class="tdlabel">Mã phiếu:</td>
+            <td class="tdbox"><input class="textbox id" name="order_id" id="order_id" readonly="readonly" value="<?php echo $_GET['order_id']; ?>"></td>
+            <td class="tdlabel">Kho nhận:</td>
+            <td class="tdbox"><select class="txtbox" name="warehouse_id" id="warehouse_id">
               <option value="<?php echo $_SESSION['warehouse_id']; ?>">
                 <?php 
                 if (isset($_SESSION['warehouse_id'])){
@@ -123,18 +132,14 @@
                 ?>
                 <option value="<?php echo $row['warehouse_id']; ?>"><?php echo $row['warehouse_name']; ?></option>
                 <?php } ?>
-              </select>
-            </div>
-            <div class="lfield">Ngày nhận dự kiến: <input class="txtbox" style="width: 100px;" type="text" name="order_accept_date" value="<?php 
-            if(isset($_SESSION['order_accept_date'])){echo date("d/m/Y",strtotime(str_replace('-', '/', $_SESSION['order_accept_date'])));}
-            else {$a = getdate(); echo $a['mday'].'/'.$a['mon'].'/'.$a['year']; } ?>" ></div>
-
-
-
-            <div class="clear"></div>
-            <div>
-              Nhà cung cấp: 
-              <select class="txtbox" id="supplier_id" name="supplier_id" style="min-width: 690px;">
+              </select></td>
+              <td class="tdlabel">Ngày nhận:</td>
+              <td class="tdbox"><input class="textbox" type="date" name="order_accept_date" value="<?php 
+              echo $_SESSION['order_accept_date']; ?>"></td>
+            </tr>
+            <tr class="tr">
+              <td class="tdlabel">Nhà cung cấp:</td>
+              <td colspan="5" class="tdbox"><select class="textarea" id="supplier_id" name="supplier_id" style="min-width: 690px;">
                 <option value="<?php echo $_SESSION['supplier_id']; ?>">
                   <?php 
                   if (isset($_SESSION['supplier_id'])){
@@ -155,10 +160,13 @@
                   ?>
                   <option value="<?php echo $row['supplier_id']; ?>"><?php echo $row['supplier_name']; ?></option>
                   <?php } ?>
-                </select>
-              </div>
-              <div class="clear" style="height: 30px"></div>
-            </div>
+                </select></td>
+              </tr>
+              <tr class="tr">
+                <td class="tdlabel">Diễn giải:</td>
+                <td colspan="5" class="tdbox"><textarea rows="3" cols="108" class="textarea" style="margin: 1%"></textarea></td>
+              </tr>
+            </table>
             <table class="table table-striped table-hover">
               <thead>
                <tr>

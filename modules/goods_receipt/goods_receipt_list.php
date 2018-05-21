@@ -29,9 +29,9 @@
           <td><?php echo $row["goodsreceipt_id"]; ?></td>
           <td><?php echo $row["order_id"]; ?></td>
           <td><?php echo $row["warehouse_name"] ?></td>
-          <td><?php echo $row["goodsreceipt_date"] ?></td>
+          <td><?php echo date('d/m/Y',time($row["goodsreceipt_date"])) ?></td>
           <td><?php echo $row["goodsreceipt_user"] ?></td>
-          <td><?php echo $row["goodsreceipt_type"] ?></td>
+          <td><?php echo $row["goodsreceipt_note"] ?></td>
           <td>
             <a href="<?php echo ('index.php?id=nhapkho&goods_receipt=true&goodsreceipt_id='.$row['goodsreceipt_id']) ?>" class="btn btn-success" data-toggle="modal"><span>Xem</span></a>
           </td>
