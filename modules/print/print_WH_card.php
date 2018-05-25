@@ -22,25 +22,9 @@
 		$materials_id = $_GET["materials_id"]; 
 		$warehouse_id = $_GET["warehouse_id"];
 		?>
-		<div class="row">Công trình: <b>
-			<?php 
-			$sql = "SELECT * FROM warehouse WHERE warehouse_id = '$warehouse_id'";
-			$row = mysql_fetch_assoc(mysql_query($sql));
-			if($row["warehouse_name"] != null){
-				echo $row["warehouse_name"];
-			}
-			?>
-		</b></div>
+		<div class="row">Công trình: <b>Công trình Jamona Height</b></div>
 		<div class="row">Số: ....../....../...... </div>
-		<div class="row">Loại vật tư, hàng hóa: 
-			<?php 
-			$sql = "SELECT * FROM materials INNER JOIN materials_category on materials.materials_cat_id = materials_category.materials_cat_id WHERE materials_id = '$materials_id'"; 
-			$result = mysql_query($sql);
-			while ($row = mysql_fetch_array($result)) {
-				echo ("<b>".$row["materials_name"]."</b> &emsp; Mã số: <b>".$row["materials_id"]."</b> &emsp; Phân loại: <b>".$row["materials_cat_name"]."</b> &emsp; Đơn vị tính: <b>".$row["materials_unit"]."</b>");
-			}
-			?>
-		</div>	
+		<div class="row">Loại vật tư, hàng hóa: ……………….. Mã số: ………../ phân loại: …………../ Đơn vị tính: …………</div>	
 		<div class="row"><br>
 			<table>
 				<tr style="font-weight:bold; text-align: center">

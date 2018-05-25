@@ -19,22 +19,21 @@
      $_SESSION["tam"] = "transfer_edit";
      $_SESSION["item"] = 1;
      $_SESSION["edit"] = 1;
-     
-     $goodstransfer_id = $_GET["goodstransfer_id"];      
-     $edit = 1;
-     $sql = "SELECT * FROM goods_transfer_contain as a INNER JOIN materials as b ON a.materials_id = b.materials_id INNER JOIN materials_category as c on b.materials_cat_id = c.materials_cat_id WHERE goodstransfer_id = '$goodstransfer_id'";
-     $result = mysql_query($sql);
-     while ($row = mysql_fetch_array($result)) {
-      $_SESSION["materials_id".$edit] = $row["materials_id"];
-      $_SESSION['materials_name'.$edit] = $row['materials_name'];
-      $_SESSION['materials_cat_name'.$edit] = $row['materials_cat_name'];
-      $_SESSION['materials_unit'.$edit] = $row['materials_unit'];
-      $_SESSION['materialscount'.$edit] = $row['materialscount'];
-      $edit++;  
-    }
-    $_SESSION["item"] = $edit;
-    $_SESSION["edit"] = $edit;
+   }
+   $goodstransfer_id = $_GET["goodstransfer_id"];      
+   $edit = 1;
+   $sql = "SELECT * FROM goods_transfer_contain as a INNER JOIN materials as b ON a.materials_id = b.materials_id INNER JOIN materials_category as c on b.materials_cat_id = c.materials_cat_id WHERE goodstransfer_id = '$goodstransfer_id'";
+   $result = mysql_query($sql);
+   while ($row = mysql_fetch_array($result)) {
+    $_SESSION["materials_id".$edit] = $row["materials_id"];
+    $_SESSION['materials_name'.$edit] = $row['materials_name'];
+    $_SESSION['materials_cat_name'.$edit] = $row['materials_cat_name'];
+    $_SESSION['materials_unit'.$edit] = $row['materials_unit'];
+    $_SESSION['materialscount'.$edit] = $row['materialscount'];
+    $edit++;  
   }
+  $_SESSION["item"] = $edit;
+  $_SESSION["edit"] = $edit;
   $item = $_SESSION["item"]; 
   $duplicate =0;
   if (isset($_POST["materials_id"])) {
@@ -202,13 +201,7 @@
                       $_SESSION["materialscount".$i] = $materialscount;
                     }
                   }
-                  if ($result) { 
-                    include("success.php");
-                  }
-                  else {
-                    include("failed.php");
-                  }
-                  echo "<meta http-equiv='refresh' content='2'>";
+                  echo "<meta http-equiv='refresh' content='0'>";
                 }
 
                 ?>

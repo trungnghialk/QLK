@@ -102,8 +102,7 @@
                   ?>
                 </option>
                 <?php
-                $username = $_SESSION["username"];
-                $sql = "select DISTINCT(permission_asign.warehouse_id), warehouse_name from permission_asign INNER JOIN warehouse on warehouse.warehouse_id = permission_asign.warehouse_id where permission_asign.username = '$username'";
+                $sql = "select * from warehouse";
                 $result = mysql_query($sql);
                 while ($row = mysql_fetch_array($result)) {
                   ?>
@@ -228,14 +227,8 @@
               unset($_SESSION["warehouse_id"]);
                   // $count_issue = $_SESSION['count_issue'];
               $count_issue++;
-              $result = mysql_query("UPDATE count SET count_issue= '$count_issue' WHERE id = 1");
-              if ($result) { 
-                include("success.php");
-              }
-              else {
-                include("failed.php");
-              }
-              echo "<meta http-equiv='refresh' content='2'>";
+              mysql_query("UPDATE count SET count_issue= '$count_issue' WHERE id = 1");
+              echo "<meta http-equiv='refresh' content='0'>";
             }
             ?>
           </div>

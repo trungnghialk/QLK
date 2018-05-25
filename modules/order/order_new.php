@@ -175,7 +175,7 @@
                    <tr>
                     <td><?php echo $_SESSION["materials_id".$i] ?></td>
                     <td><?php echo $_SESSION["materials_name".$i] ?></td>
-                    <td><input style=" width: 50px" class="txtbox" type="number" min="0" required="" name="<?php echo ('materialscount_in'.$i) ?>" value='<?php echo $_SESSION["materialscount_in".$i] ?>'></td>
+                    <td><input style=" width: 50px" class="txtbox" type="text" name="<?php echo ('materialscount_in'.$i) ?>" value='<?php echo $_SESSION["materialscount_in".$i] ?>'></td>
                     <td><?php echo $_SESSION["materials_unit".$i] ?></td>
                     <td><?php echo $_SESSION["materials_cat_name".$i] ?></td>
                   </tr> 
@@ -228,16 +228,12 @@
             // $count_order = $_SESSION['count_order'];
           $count_order++;
           mysql_query("UPDATE count SET count_order= '$count_order' WHERE id = 1");
-          if ($result) { 
-            include("success.php");
-          }
-          else {
-            include("failed.php");
-          }
-          echo "<meta http-equiv='refresh' content='2'>";
+          echo "<meta http-equiv='refresh' content='0'>";
+
         }
+
         ?>
       </div>
     </div>
     <!-- Edit Modal HTML -->
-    <script src="js/custom.js"></script>
+    <script src="js/custom.js"></script>}

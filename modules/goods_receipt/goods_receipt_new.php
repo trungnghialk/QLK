@@ -1,15 +1,15 @@
  <?php 
- if (!isset($_SESSION["item"])) {
-  $_SESSION["item"] = 1;
-}
-if ($_SESSION["clear"] != "O" || $_SESSION["tam"] != "receive_new")  {
- $_SESSION["tam"] = $_SESSION["item"];
- include("clear.php");
- $_SESSION["clear"] = "O";
- $_SESSION["tam"] = "receive_new";
- $_SESSION["edit"] = 1;
- $_SESSION["item"] = 1;
-}
+     if (!isset($_SESSION["item"])) {
+      $_SESSION["item"] = 1;
+    }
+ if ($_SESSION["clear"] != "O" || $_SESSION["tam"] != "receive_new")  {
+   $_SESSION["tam"] = $_SESSION["item"];
+   include("clear.php");
+   $_SESSION["clear"] = "O";
+   $_SESSION["tam"] = "receive_new";
+   $_SESSION["edit"] = 1;
+   $_SESSION["item"] = 1;
+ }
 $order_id = $_GET["order_id"];
 $SQL = "SELECT order_id FROM orders WHERE order_id ='$order_id'";
 $result = mysql_query($SQL);
@@ -174,17 +174,11 @@ if (mysql_fetch_row($result) != NULL){  ?>
      $materials_id = $_SESSION["materials_id".$i];
      $materialscount_out = $_POST["materialscount_out".$i];
      $sql = "INSERT INTO goods_receipt_contain (goodsreceipt_id, materials_id, materialscount) VALUES ('$goodsreceipt_id', '$materials_id', '$materialscount_out') ";
-     $result = mysql_query($sql);
+     mysql_query($sql);
    }
-   if ($result) { 
-    include("success.php");
-  }
-  else {
-    include("failed.php");
-  }
-  echo "<meta http-equiv='refresh' content='2'>";
-}
-?>
+   echo "<meta http-equiv='refresh' content='0'>";
+ }
+ ?>
 </div>
 </div>
 <!-- Edit Modal HTML -->
