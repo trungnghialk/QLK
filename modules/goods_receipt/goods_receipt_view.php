@@ -69,7 +69,7 @@ if (mysql_fetch_row($result) != NULL){  ?>
           </tbody>
         </table>
         <div class="modal-footer">
-          <input style="float: left;" type="submit" name="print" id="checkout" class="btn btn-danger" value="In phiếu" />  
+          <a href=<?php echo ("http://localhost/qlk/modules/print/print_receipt.php?goodsreceipt_id=".$goodsreceipt_id) ?>><input style="float: left;" type="button" name="print" id="checkout" class="btn btn-danger" value="In phiếu" /></a>
           <a href="index.php?id=nhapkho&view=true"><input type="button" class="btn btn-default" data-dismiss="modal" value="Đóng"></a>
         </div>
       </form> 

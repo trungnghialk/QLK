@@ -159,7 +159,7 @@
       }
       if( $materialscount_in > 0){
        $sql = "INSERT INTO goods_receipt_contain( goodsreceipt_id, materials_id, materialscount) VALUES ('$goodsreceipt_id', '$materials_id', '$materialscount_in')" ;
-       mysql_query($sql);
+       $result = mysql_query($sql);
      }
 
         // $SQL = "UPDATE warehouse_contain SET warehouse_contain_total = warehouse_contain_total - materialscount_out WHERE "
@@ -174,10 +174,16 @@
    $_SESSION["clear"] = "O";
    $count_receipt++;
    mysql_query("UPDATE count SET count_receipt= '$count_receipt' WHERE id = 1");
-   echo "<meta http-equiv='refresh' content='0'>";
- }
+   if ($result) { 
+    include("success.php");
+  }
+  else {
+    include("failed.php");
+  }
+  echo "<meta http-equiv='refresh' content='2'>";
+}
 
- ?>
+?>
 </div>
 </div>
 <!-- Edit Modal HTML -->

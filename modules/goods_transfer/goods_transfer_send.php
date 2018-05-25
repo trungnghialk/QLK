@@ -145,7 +145,7 @@
       $sql = "UPDATE warehouse_contain SET warehouse_contain_total = warehouse_contain_total - '$materialscount_out' WHERE warehouse_id = '$warehouse_id_send' AND materials_id = '$materials_id' ";
       mysql_query($sql);
       $sql = "INSERT INTO goods_issue_contain( goodsissue_id, materials_id, materialscount) VALUES ('$goodsissue_id', '$materials_id', '$materialscount_out')";
-      mysql_query($sql);
+      $result = mysql_query($sql);
         // $SQL = "UPDATE warehouse_contain SET warehouse_contain_total = warehouse_contain_total - materialscount_out WHERE "
       unset($_SESSION["materials_id".$i]);
       unset($_SESSION["materials_name".$i]);
@@ -158,7 +158,13 @@
     $count_issue++;
     mysql_query("UPDATE count SET count_issue = '$count_issue' WHERE id = 1");
     $_SESSION["clear"] = "O";
-    echo "<meta http-equiv='refresh' content='0'>";
+    if ($result) { 
+      include("success.php");
+    }
+    else {
+      include("failed.php");
+    }
+    echo "<meta http-equiv='refresh' content='2'>";
   }
 
   ?>

@@ -1,16 +1,19 @@
  <?php 
- if ($_SESSION["clear"] != $_GET["order_id"] || $_SESSION["tam"] != "order_view")  {
-   $_SESSION["tam"] = $_SESSION["item_new"];
-   include("clear.php");
-   $_SESSION["clear"] = $_GET["order_id"];
-   $_SESSION["tam"] = "order_view";
-   $_SESSION["item"] = 1;
- }
- $order_id = $_GET["order_id"];
- $SQL = "SELECT order_id FROM orders WHERE order_id ='$order_id'";
- $result = mysql_query($SQL);
- if (mysql_fetch_row($result) != NULL){  ?>
- <div class="container">
+ if (!isset($_SESSION["item_new"])) {
+  $_SESSION["item_new"] = 1;
+}
+if ($_SESSION["clear"] != $_GET["order_id"] || $_SESSION["tam"] != "order_view")  {
+ $_SESSION["tam"] = $_SESSION["item_new"];
+ include("clear.php");
+ $_SESSION["clear"] = $_GET["order_id"];
+ $_SESSION["tam"] = "order_view";
+ $_SESSION["item"] = 1;
+}
+$order_id = $_GET["order_id"];
+$SQL = "SELECT order_id FROM orders WHERE order_id ='$order_id'";
+$result = mysql_query($SQL);
+if (mysql_fetch_row($result) != NULL){  ?>
+<div class="container">
   <div class="table-wrapper" style="width: 900px; margin: 80px auto;">
     <div class="table-title">
       <div class="row">
@@ -84,6 +87,7 @@
           <?php
           if(isset($_POST["materials_id"]) || isset($_GET["order_id"])){
             for ($i=1; $i < $item; $i++) { 
+              $_SESSION["itemprint"] = $item;
              ?>
              <tr>
               <td><?php echo $_SESSION["materials_id".$i] ?></td>
@@ -99,13 +103,16 @@
         } ?>
       </tbody>
     </table>
+    
     <div class="modal-footer">
-      <input style="float: left;" type="submit" name="print" id="checkout" class="btn btn-danger" value="In phiếu" />  
+      <a style="float: left;" href=<?php echo ("modules/print/print_order.php?order_id=".$order_id) ?>>
+        <input type="button" class="btn btn-danger" data-dismiss="modal" value="In phiếu"></a>
       <a href="index.php?id=dathang&view=TRUE"><input type="button" class="btn btn-default" data-dismiss="modal" value="Đóng"></a>
     </div>
   </form> 
 </div>
 </div>
+<?php } ?>
+
 <!-- Edit Modal HTML -->
 <script src="js/custom.js"></script>}
-<?php } ?>

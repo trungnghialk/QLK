@@ -1,13 +1,21 @@
-<div class="container">
-  <div class="table-wrapper">
-    <div class="table-title">
-      <div class="row">
-        <a href="#" class="btn btn-sq-lg btn-success">Thẻ kho</a>
-        <a href="#" class="btn btn-sq-lg btn-success">Nhập - Xuất - Tồn</a>
-        <a href="#" class="btn btn-sq-lg btn-success">Kiểm kê kho</a>
-        <a href="#" class="btn btn-sq-lg btn-success">Tồn kho</a>
-      </div>
-    </div>
-  </div>
-</div>
-  
+<?php
+if (isset($_GET['warehouse_card']) == "true") {
+  include ("/modules/report/warehouse_card.php");
+}
+if (isset($_GET['warehouse_in_out']) == "true") {
+  include ("/modules/report/warehouse_in_out.php");
+}
+if (isset($_GET['warehouse_check']) == "true") {
+  include ("/modules/report/warehouse_check.php");
+}
+if (isset($_GET['view']) == "true") {
+  include ("/modules/report/report_list.php");
+}
+if (isset($_GET['warehouse_contain']) == "true") {
+  include ("/modules/report/warehouse_contain.php");
+}
+if (isset($_GET['warehouse_contain1']) == "true") {
+  include ("/modules/report/goods_issue_new.php");
+}
+?>
+

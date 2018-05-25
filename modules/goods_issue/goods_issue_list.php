@@ -8,7 +8,6 @@
           </div>
           <div class="col-sm-6">
             <?php 
-            $create_button = 0;
             include("/modules/permission/issue.php") ?>
           </div>
         </div>

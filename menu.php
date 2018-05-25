@@ -19,7 +19,7 @@
       <li style="<?php if($_GET['id'] == 'nhacungcap'){echo 'background-color: #eee;';} ?>">
       	<a style="<?php if($_GET['id'] == 'nhacungcap'){echo 'color: green;';} ?>" href="?id=nhacungcap">Nhà Cung cấp</a></li>
       <li style="<?php if($_GET['id'] == 'baocao'){echo 'background-color: #eee;';} ?>">
-      	<a style="<?php if($_GET['id'] == 'baocao'){echo 'color: green;';} ?>" href="?id=baocao">Báo cáo</a></li>
+      	<a style="<?php if($_GET['id'] == 'baocao'){echo 'color: green;';} ?>" href="?id=baocao&view=true">Báo cáo</a></li>
       <li style="<?php if($_GET['id'] == 'cauhinh'){echo 'background-color: #eee;';} ?>">
       	<a style="<?php if($_GET['id'] == 'cauhinh'){echo 'color: green;';} ?>" href="?id=cauhinh">Cấu hình</a></li>
     </ul>
