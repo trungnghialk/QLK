@@ -203,14 +203,14 @@
           $warehouse_id = $_POST["warehouse_id"];
           $order_accept_date = date("Y-m-d",strtotime(str_replace('/', '-', $_POST["order_accept_date"])));
           $supplier_id = $_POST["supplier_id"];
-          $SQL = "INSERT INTO ORDERS(order_id, warehouse_id, supplier_id, order_accept_date,username) VALUES ('$order_id', '$warehouse_id', '$supplier_id', '$order_accept_date','')";
+          $SQL = "INSERT INTO orders(order_id, warehouse_id, supplier_id, order_accept_date,username) VALUES ('$order_id', '$warehouse_id', '$supplier_id', '$order_accept_date','')";
           $result = mysql_query($SQL);
 
           for ($i=1; $i < $item ; $i++) { 
             $materials_id = $_SESSION["materials_id".$i];
             $materialscount_in = $_POST["materialscount_in".$i];
             if($materialscount_in > 0){
-              $SQL = "INSERT INTO ORDERS_CONTAIN(order_id, materials_id, materialscount_in) VALUES ('$order_id', '$materials_id', '$materialscount_in')";
+              $SQL = "INSERT INTO orders_contain(order_id, materials_id, materialscount_in) VALUES ('$order_id', '$materials_id', '$materialscount_in')";
               $result = mysql_query($SQL);
             }
             unset($_SESSION["item_new"]);
@@ -228,7 +228,14 @@
             // $count_order = $_SESSION['count_order'];
           $count_order++;
           mysql_query("UPDATE count SET count_order= '$count_order' WHERE id = 1");
-          echo "<meta http-equiv='refresh' content='0'>";
+          if ($result) {
+            include("success.php");
+          }
+          else {
+           include("failed.php"); 
+          }
+
+          echo "<meta http-equiv='refresh' content='2'>";
 
         }
 

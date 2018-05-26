@@ -1,5 +1,5 @@
 <?php 
-for ($i=1; $i < $_SESSION["warehouse_count"] ; $i++) { 
+for ($i=1; $i < isset($_SESSION["warehouse_count"]) ; $i++) { 
 	if ($create_button == 0 && $_SESSION["permit_id".$i] == 3){
 		$create_button = 1;
 		echo ("<a href='index.php?id=dathang&new=true' class='btn btn-success' data-toggle='modal'><i class='material-icons'>&#xE147;</i> <span>Tạo phiếu đặt hàng</span></a>");

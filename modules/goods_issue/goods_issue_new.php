@@ -228,10 +228,16 @@
                   // $count_issue = $_SESSION['count_issue'];
               $count_issue++;
               mysql_query("UPDATE count SET count_issue= '$count_issue' WHERE id = 1");
-              echo "<meta http-equiv='refresh' content='0'>";
-            }
-            ?>
-          </div>
-        </div>
-        <!-- Edit Modal HTML -->
-        <script src="js/custom.js"></script>}
+              if ($result) {
+                include("success.php");
+              }
+              else {
+               include("failed.php"); 
+             }
+             echo "<meta http-equiv='refresh' content='2'>";
+           }
+           ?>
+         </div>
+       </div>
+       <!-- Edit Modal HTML -->
+       <script src="js/custom.js"></script>}

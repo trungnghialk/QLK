@@ -201,11 +201,17 @@
                       $_SESSION["materialscount".$i] = $materialscount;
                     }
                   }
-                  echo "<meta http-equiv='refresh' content='0'>";
-                }
+                  if ($result) {
+                    include("success.php");
+                  }
+                  else {
+                   include("failed.php"); 
+                 }
+                 echo "<meta http-equiv='refresh' content='2'>";
+               }
 
-                ?>
-              </div>
-            </div>
-            <!-- Edit Modal HTML -->
-            <script src="js/custom.js"></script>}
+               ?>
+             </div>
+           </div>
+           <!-- Edit Modal HTML -->
+           <script src="js/custom.js"></script>}

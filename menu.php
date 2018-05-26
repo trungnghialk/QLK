@@ -23,8 +23,14 @@
       <li style="<?php if($_GET['id'] == 'cauhinh'){echo 'background-color: #eee;';} ?>">
       	<a style="<?php if($_GET['id'] == 'cauhinh'){echo 'color: green;';} ?>" href="?id=cauhinh">Cấu hình</a></li>
     </ul>
+    <?php 
+    $username = $_SESSION['username'];
+    $sql = "SELECT hovaten from users where username = '$username'";
+    $result = mysql_query($sql);
+    $row = mysql_fetch_assoc($result);
+     ?>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Xin chào, <?php echo $_SESSION['username'] ?></a></li>
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Xin chào, <?php echo $row['hovaten'] ?></a></li>
       <li><a href="logout.php"><span class="glyphicon glyphicon-log-in"></span> Thoát</a></li>
     </ul>
   </div>
